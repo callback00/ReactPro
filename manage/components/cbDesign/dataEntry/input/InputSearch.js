@@ -1,6 +1,5 @@
 
 import React from 'react'
-import Scss from './style/InputSearch.scss'
 
 class InputSearch extends React.Component {
     constructor(props) {

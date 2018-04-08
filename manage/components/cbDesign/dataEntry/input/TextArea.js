@@ -1,6 +1,5 @@
 
 import React from 'react'
-import Scss from './style/TextArea.scss'
 
 class textArea extends React.Component {
     constructor(props) {
@@ -32,7 +31,7 @@ class textArea extends React.Component {
         let style = {}
         style = Object.assign(style, temp)
 
-        style.color = value ? 'black' : 'rgba(0,0,0,.65)'
+        style.color = value ? 'black' : 'rgba(0,0,0,0.65)'
 
         this.setState({
             value,

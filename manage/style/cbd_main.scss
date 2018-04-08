@@ -1,0 +1,14 @@
+// 组件样式总控制端，此处只处理控件的样式引用
+
+//全局样式，用于定制化主题
+$border-color: #40a9ff; 
+
+@import '../components/cbDesign/dataEntry/input/style/Input.scss';
+@import '../components/cbDesign/dataEntry/input/style/InputGroup.scss';
+@import '../components/cbDesign/dataEntry/input/style/InputSearch.scss';
+@import '../components/cbDesign/dataEntry/input/style/TextArea.scss';
+
+
+/*----------------------------table---------------------------------*/
+
+@import '../components/cbDesign/tables/style/TableReport.scss';

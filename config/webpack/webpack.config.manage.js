@@ -13,18 +13,19 @@ module.exports = {
 
   entry: {
     // 热加载写法
-    app: ['webpack-hot-middleware/client', './manage/App.js']
+    app: ['webpack-hot-middleware/client', './manage/App.js'],
+    css: ['./manage/style/bs_main.scss'],
   },
 
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].js',
 
     // build时输出目录，不发布代码可以注释掉
     path: path.resolve(__dirname, 'build/pcweb'),
 
     // 开发模式(文档译为观察模式)下输出的文件路径
     // server.html里的js路径需与这里保持一致
-    publicPath: '/pcweb/bundle',
+    publicPath: '/pcweb',
   },
 
   plugins: [

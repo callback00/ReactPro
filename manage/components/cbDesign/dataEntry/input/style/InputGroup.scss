@@ -22,15 +22,16 @@
             border-right: 0px;
             box-sizing: border-box;
             &:hover {
-                border-color: #40a9ff;
+                border-color: $border-color;
             }
             &:focus {
-                border-color: #40a9ff;
-                box-shadow: 0px 0px 5px 0.1px #40a9ff;
+                border-color: $border-color;
+                box-shadow: 0px 0px 5px 0.1px $border-color;
             }
         }
         ul {
             width: 100%;
+            z-index: 2;
         }
     }
     .cascader-menus {
@@ -58,11 +59,11 @@
             z-index: auto;
             background: transparent;
             &:hover {
-                border: 1px solid #40a9ff;
+                border: 1px solid $border-color;
             }
             &:focus {
-                border: 1px solid #40a9ff;
-                box-shadow: 0px 0px 5px 0.1px #40a9ff;
+                border: 1px solid $border-color;
+                box-shadow: 0px 0px 5px 0.1px $border-color;
             }
         }
         div {

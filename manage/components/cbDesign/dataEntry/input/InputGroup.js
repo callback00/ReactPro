@@ -1,7 +1,5 @@
 
 import React from 'react'
-import Scss from './style/InputGroup.scss'
-
 
 const jsonData = [
     {

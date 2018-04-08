@@ -1,0 +1,57 @@
+[
+    {
+        "id": "1",
+        "name": "daily",
+        "age": "28",
+        "street": "五一路",
+        "building": "维也纳酒店",
+        "number": "101",
+        "companyAddress": "五一路淡村市场",
+        "companyName": "了一家科技公司",
+        "gender": "男"
+    },
+    {
+        "id": "2",
+        "name": "daily",
+        "age": "28",
+        "street": "五二路",
+        "building": "维也纳酒店",
+        "number": "101",
+        "companyAddress": "五一路淡村市场",
+        "companyName": "了一家科技公司",
+        "gender": "男"
+    },
+    {
+        "id": "3",
+        "name": "daily",
+        "age": "28",
+        "street": "五三路",
+        "building": "维也纳酒店",
+        "number": "101",
+        "companyAddress": "五一路淡村市场",
+        "companyName": "了一家科技公司",
+        "gender": "女"
+    },
+    {
+        "id": "4",
+        "name": "lufi",
+        "age": "28",
+        "street": "五一路",
+        "building": "维也纳酒店",
+        "number": "101",
+        "companyAddress": "五一路淡村市场",
+        "companyName": "了一家科技公司",
+        "gender": "男"
+    },
+    {
+        "id": "5",
+        "name": "lufi",
+        "age": "28",
+        "street": "五二路",
+        "building": "维也纳酒店",
+        "number": "101",
+        "companyAddress": "五一路淡村市场",
+        "companyName": "了一家科技公司",
+        "gender": "男"
+    }
+]

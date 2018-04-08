@@ -1,95 +1,5 @@
 import React from 'react'
-import Scss from './style/TableReport.scss'
-
-const columns = [{
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    width: 100,
-}, {
-    title: 'Other',
-    children: [{
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-        width: 200,
-    }, {
-        title: 'Address',
-        children: [{
-            title: 'Street',
-            dataIndex: 'street',
-            key: 'street',
-            width: 200,
-        }, {
-            title: 'Block',
-            children: [{
-                title: 'Building',
-                dataIndex: 'building',
-                key: 'building',
-                width: 100,
-            }, {
-                title: 'Door No.',
-                dataIndex: 'number',
-                key: 'number',
-                width: 100,
-            }],
-        }],
-    }],
-}, {
-    title: 'Company',
-    children: [{
-        title: 'Company Address',
-        dataIndex: 'companyAddress',
-        key: 'companyAddress',
-    }, {
-        title: 'Company Name',
-        dataIndex: 'companyName',
-        key: 'companyName',
-    }],
-}, {
-    title: 'Gender',
-    dataIndex: 'gender',
-    key: 'gender',
-    width: 60,
-}];
-
-const data = [{
-    name: 'daily',
-    age: '28',
-    street: '五一路',
-    building: '维也纳酒店',
-    doorno: '101',
-    address: '五一路淡村市场',
-    company: '了一家科技公司',
-    gender: '男'
-}, {
-    name: 'daily',
-    age: '28',
-    street: '五二路',
-    building: '维也纳酒店',
-    doorno: '101',
-    address: '五一路淡村市场',
-    company: '了一家科技公司',
-    gender: '男'
-}, {
-    name: 'daily',
-    age: '28',
-    street: '五三路',
-    building: '维也纳酒店',
-    doorno: '102',
-    address: '五一路淡村市场',
-    company: '了一家科技公司',
-    gender: '男'
-}, {
-    name: 'lufi',
-    age: '28',
-    street: '五三路五三路五三路五三路五三路五三路五三路五三路五三路五三路五三路五三路五三路五三路五三路五三路五三路五三路五三路',
-    building: '维也纳酒店',
-    doorno: '102',
-    address: '五一路淡村市场',
-    company: '了一家科技公司',
-    gender: '男'
-}]
+// import Scss from './style/TableReport.scss'
 
 class TableReport extends React.Component {
     constructor(props) {
@@ -98,13 +8,22 @@ class TableReport extends React.Component {
             value: null,
         }
 
-        this.theadArry = []
+        // JS_MergeCell 里用到，但是这个方法已被替代
         this.tbody = null
+
+        // 分析表头列用到
+        this.theadArry = []
+
+        // columns 的子叶数据,这里的数据与data的数据一一对应
+        this.leafColumns = []
+
+        this.columns = this.props.columns
+        this.data = this.props.data
     }
 
     componentWillMount() {
         const that = this
-        columns.forEach(item => {
+        this.columns.forEach(item => {
 
             if (!that.theadArry[0]) {
                 that.theadArry[0] = []
@@ -124,18 +43,33 @@ class TableReport extends React.Component {
                 }
             });
         });
+
+        // 处理需要合并单元格的数据
+        this.data.forEach(item => {
+            item.td = []
+            for (const key in item) {
+                if (key !== 'td' && that.leafColumns.find((tempKey) => { return tempKey === key })) {
+                    item.td.push({ key, value: item[key], rowSpan: 1, visible: true })
+                }
+
+            }
+        });
+
+        for (let i = 0; i < this.leafColumns.length; i++) {
+            this.Data_MergeCell(0, 1, i)
+        }
     }
 
     componentDidMount() {
-        // 处理合并单元格
-        this.MergeCell(0, 0, 0)
+        // 用js合并单元格，会引起界面reflow, 在Data_MergeCell() 方法稳定后可以删除
+        // this.JS_MergeCell(0, 0, 0)
     }
 
     ///合并表格相同行的内容  
     ///startRow：起始行，没有标题就从0开始  
     ///endRow：终止行，此参数是递归时检查的范围，一开始时会自动赋值为最后一行  
     ///col：当前处理的列  
-    MergeCell(startRow, endRow, col) {
+    JS_MergeCell(startRow, endRow, col) {
         let tb = this.tbody;
         if (col >= tb.rows[0].cells.length) {
             return;
@@ -161,6 +95,33 @@ class TableReport extends React.Component {
                 //增加起始行  
                 startRow = i + 1;
             }
+        }
+    }
+
+
+    // 计算合并单元格，数据遍历时以td的内容为主
+    Data_MergeCell(startRow, endRow, col) {
+        let dataTemp = this.data;
+
+        if (endRow > dataTemp.length - 1) {
+            return
+        }
+
+        //程序是自左向右合并,如果第一列不同不合并
+        if (dataTemp[startRow].td[col].value === dataTemp[endRow].td[col].value && dataTemp[startRow].td[0].value === dataTemp[endRow].td[0].value) {
+
+            dataTemp[startRow].td[col].rowSpan = dataTemp[startRow].td[col].rowSpan + 1
+
+            dataTemp[endRow].td[col].visible = false
+
+            this.Data_MergeCell(startRow, endRow + 1, col)
+
+
+        } else {
+            startRow = endRow
+            endRow = endRow + 1
+
+            this.Data_MergeCell(startRow, endRow, col)
         }
     }
 
@@ -191,12 +152,12 @@ class TableReport extends React.Component {
 
         } else {
             parent.colSpan = 1
+
+            // 记录叶子节点，用于处理data
+            this.leafColumns.push(parent.key)
+
             return callback(parent)
         }
-    }
-
-    tbodyDataAnalysis() {
-
     }
 
     renderThead() {
@@ -207,7 +168,7 @@ class TableReport extends React.Component {
                     {
                         tr.map((item, k) => {
                             return (
-                                <td key={`${i}-${k}`} colSpan={item.colSpan} rowSpan={item.children && item.children.length > 0 ? 1 : theadArry.length - i} >{item.title}</td>
+                                <th key={`${i}-${k}`} colSpan={item.colSpan} rowSpan={item.children && item.children.length > 0 ? 1 : theadArry.length - i} >{item.title}</th>
                             )
                         })
                     }
@@ -219,29 +180,18 @@ class TableReport extends React.Component {
     }
 
     renderTbody() {
-        const rtnData = data.map((item, i) => {
+        const rtnData = this.data.map((item, i) => {
             return (
                 <tr key={i}>
                     {
-                        this.renderTbodyTd(item)
+                        item.td.map((td, n) => {
+                            return (
+                                <td key={n} rowSpan={td.rowSpan} style={{ display: td.visible ? 'table-cell' : 'none' }} >{td.value}</td>
+                            )
+                        })
                     }
                 </tr>
             )
-        })
-        return (rtnData)
-    }
-
-    renderTbodyTd(item) {
-        const tempArry = []
-        for (const key in item) {
-            tempArry.push({ key, value: item[key] })
-        }
-
-        const rtnData = tempArry.map((item, i) => {
-            return (
-                <td key={i}>{item.value}</td>
-            )
-
         })
         return (rtnData)
     }
