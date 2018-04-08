@@ -1,5 +1,5 @@
 import React from 'react'
-// import Scss from './style/TableReport.scss'
+import lodash from 'lodash'
 
 class TableReport extends React.Component {
     constructor(props) {
@@ -17,22 +17,33 @@ class TableReport extends React.Component {
         // columns 的子叶数据,这里的数据与data的数据一一对应
         this.leafColumns = []
 
-        this.columns = this.props.columns
-        this.data = this.props.data
+        let tempColumn = lodash.cloneDeep(this.props.columns)
+        this.columns = tempColumn
+
+        let tempData = lodash.cloneDeep(this.props.data)
+        this.data = tempData
+    }
+
+    componentWillReceiveProps(nextProps) {
+        let tempColumn = lodash.cloneDeep(nextProps.columns)
+        this.columns = tempColumn
+
+        let tempData = lodash.cloneDeep(nextProps.data)
+        this.data = tempData
     }
 
     componentWillMount() {
-        const that = this
+        const theadArry = this.theadArry
         this.columns.forEach(item => {
 
-            if (!that.theadArry[0]) {
-                that.theadArry[0] = []
+            if (!theadArry[0]) {
+                theadArry[0] = []
             }
 
-            that.theadArry[0].push(item)
+            theadArry[0].push(item)
 
             // 回调函数用于逆算父节点列函数
-            that.treeAnalysis(1, item.children, item, (parent) => {
+            this.treeAnalysis(1, item.children, item, (parent) => {
                 if (parent.children && parent.children.length > 0) {
                     parent.children.forEach(temp => {
                         parent.colSpan = parent.colSpan ? parent.colSpan : 0
@@ -48,7 +59,7 @@ class TableReport extends React.Component {
         this.data.forEach(item => {
             item.td = []
             for (const key in item) {
-                if (key !== 'td' && that.leafColumns.find((tempKey) => { return tempKey === key })) {
+                if (key !== 'td' && this.leafColumns.find((tempKey) => { return tempKey === key })) {
                     item.td.push({ key, value: item[key], rowSpan: 1, visible: true })
                 }
 

@@ -47,7 +47,7 @@ const jsonData = [
 ]
 
 
-class InputGroup extends React.Component {
+class InputGroupNew extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -60,6 +60,7 @@ class InputGroup extends React.Component {
             mouseLeaveMenu: true,
 
             valueArry: [],
+            menuArry: [],
             valueText: ''
         }
     }
@@ -123,6 +124,15 @@ class InputGroup extends React.Component {
 
             const parentUl = el.parentNode
 
+            // 获取当前选择的menu
+            let current_UL_Index = 0
+            for (let i = 0; i < menuDiv.childNodes.length; i++) {
+                if (menuDiv.childNodes[i] === parentUl) {
+                    current_UL_Index = i
+                }
+            }
+
+
             parentUl.childNodes.forEach(element => {
                 if (el === element) {
                     // 设置选择效果，else清除原来的选择
@@ -132,70 +142,8 @@ class InputGroup extends React.Component {
                     menuDiv.parentNode.childNodes[1].focus();
                     menuDiv.parentNode.childNodes[1].removeAttribute('placeholder')
 
-                    this.setState({
-                        rightOpenFlag: true
-                    })
-
-                    //当前所在页
-                    let current_UL_Index = 0
-
-                    // 判断点击的选项是否还有子节点，有子节点则添加ul或重新设置ul的innerHTML
-                    const children = element.dataset.children ? JSON.parse(element.dataset.children) : []
-                    if (children.length > 0) {
-
-                        for (let i = 0; i < menuDiv.childNodes.length; i++) {
-                            if (menuDiv.childNodes[i] === parentUl) {
-                                current_UL_Index = i
-                                let innerHTML = ''
-                                children.forEach(item => {
-                                    innerHTML = innerHTML + `<li class="${"cascader-menus-item-li" + `${item.children ? ' expend' : ''}`}" data-key=${item.key} data-children =${item.children ? JSON.stringify(item.children) : '[]'}>
-                                                                ${item.value}
-                                                             </li>`
-                                });
-
-                                if (menuDiv.childNodes[i + 1]) {
-                                    menuDiv.childNodes[i + 1].style.opacity = 1
-                                    menuDiv.childNodes[i + 1].innerHTML = innerHTML
-                                } else {
-                                    let ul = document.createElement('ul')
-                                    ul.className = "cascader-menus-item"
-                                    ul.innerHTML = innerHTML
-                                    menuDiv.appendChild(ul)
-                                }
-
-                                break;
-                            }
-                        }
-
-                        // 删除非相关ul
-                        for (let i = current_UL_Index + 2; i < menuDiv.childNodes.length; i++) {
-
-                            menuDiv.removeChild(menuDiv.childNodes[i])
-                            i--
-                        }
-                    }
-                    else {
-
-                        // 删除非相关ul
-                        for (let i = 0; i < menuDiv.childNodes.length; i++) {
-                            if (menuDiv.childNodes[i] === parentUl) {
-                                current_UL_Index = i
-                                break;
-                            }
-                        }
-
-                        // 删除点击后的
-                        for (let i = current_UL_Index + 1; i < menuDiv.childNodes.length; i++) {
-                            menuDiv.removeChild(menuDiv.childNodes[i])
-                            i--
-                        }
-
-                        this.setState({
-                            rightOpenFlag: false
-                        })
-                    }
-
                     //处理值显示
+                    let valueArry = this.state.valueArry
                     if (valueArry.length > 0) {
 
                         valueArry.splice(current_UL_Index, valueArry.length - current_UL_Index, { key: el.dataset.key, value: el.outerText })
@@ -207,10 +155,34 @@ class InputGroup extends React.Component {
                         })
                     }
 
-                    this.setState({
-                        valueArry
-                    })
+                    const childMenu = []
+                    const children = element.dataset.children ? JSON.parse(element.dataset.children) : []
 
+                    let menuArry = this.state.menuArry
+
+                    const length = this.state.menuArry.length
+                    let tempMenuArry = menuArry.splice(0, current_UL_Index + 1)
+
+                    if (children.length > 0) {
+
+                        children.forEach(child => {
+                            childMenu.push(child)
+                        });
+
+                        tempMenuArry[current_UL_Index + 1] = childMenu
+
+                        this.setState({
+                            rightOpenFlag: true,
+                            menuArry: tempMenuArry,
+                            valueArry
+                        })
+                    } else {
+                        this.setState({
+                            rightOpenFlag: false,
+                            menuArry: tempMenuArry,
+                            valueArry
+                        })
+                    }
                 } else {
                     element.className = `cascader-menus-item-li${element.dataset.children && JSON.parse(element.dataset.children).length > 0 ? ' expend' : ''}`
                 }
@@ -219,6 +191,12 @@ class InputGroup extends React.Component {
 
             flag = !flag
 
+            if (this.state.menuArry.length < 1) {
+                this.state.menuArry[0] = []
+                jsonData.forEach(item => {
+                    this.state.menuArry[0].push(item)
+                });
+            }
             this.setState({
                 rightOpenFlag: flag
             })
@@ -246,13 +224,21 @@ class InputGroup extends React.Component {
     }
 
     renderRightMenu() {
-        const liList = jsonData.map((item, i) => {
+        const rtndata = this.state.menuArry.map((item, i) => {
             return (
-                <li className={"cascader-menus-item-li" + `${item.children ? ' expend' : ''}`} key={i} data-key={item.key} data-children={item.children !== null && item.children !== undefined && item.children !== '' ? JSON.stringify(item.children) : '[]'} >{item.value}</li>
+                <ul key={i} className="cascader-menus-item">
+                    {
+                        item.map((leafItem, n) => {
+                            return (
+                                <li className={"cascader-menus-item-li" + `${leafItem.children ? ' expend' : ''}`} key={`${i}-${n}`} data-key={leafItem.key} data-children={leafItem.children !== null && leafItem.children !== undefined && leafItem.children !== '' ? JSON.stringify(leafItem.children) : '[]'} >{leafItem.value}</li>
+                            )
+                        })
+                    }
+                </ul>
             )
-        });
+        })
 
-        return (liList)
+        return (rtndata)
     }
 
     renderRightValueText() {
@@ -292,10 +278,7 @@ class InputGroup extends React.Component {
                     <span className="icon right" />
 
                     <div onMouseLeave={this.onMouseLeave.bind(this)} onMouseEnter={this.onMouseEnter.bind(this)} className={`cascader-menus${this.state.rightOpenFlag ? '' : ' hidden'}`} >
-                        <ul className="cascader-menus-item">
-                            {this.renderRightMenu()}
-                        </ul>
-
+                        {this.renderRightMenu()}
                     </div>
                 </span>
 
@@ -304,4 +287,4 @@ class InputGroup extends React.Component {
     }
 }
 
-export default InputGroup
+export default InputGroupNew
