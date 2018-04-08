@@ -1,0 +1,96 @@
+.side-one {
+    .myhead {
+        position: absolute;
+        z-index: 99;
+        top: 0.75rem;
+        left: 0.5rem;
+        img {
+            border-radius: 50%;
+        }
+        img:nth-child(1) {
+            width: 2rem;
+        }
+        img:nth-child(2) {
+            position: absolute;
+            transition: 0.5s;
+            width: 1.3rem;
+            top: 1.2rem;
+            left: 1.8rem;
+        }
+        img:nth-child(3) {
+            position: absolute;
+            top: 2rem;
+            left: 1rem;
+            transition: 0.5s;
+            width: 1.2rem;
+        }
+    }
+    .word {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        .char {
+            flex: 1;
+            position: absolute;
+            font-size: 30px;
+            opacity: 0;
+            color: white;
+            transition: 0.2s
+        }
+        .char:nth-child(2) {
+            text-align: right;
+            transition-delay: 0.2s
+        }
+        .char:nth-child(3) {
+            transition-delay: 0.25s
+        }
+        .char:nth-child(4) {
+            text-align: right;
+            transition-delay: 0.30s
+        }
+        .char:nth-child(5) {
+            transition-delay: 0.35s
+        }
+        .char:nth-child(6) {
+            text-align: right;
+            transition-delay: 0.40s
+        }
+        .char:nth-child(7) {
+            transition-delay: 0.45s
+        }
+        .char:nth-child(8) {
+            text-align: right;
+            transition-delay: 0.50s
+        }
+        .char:nth-child(9) {
+            transition-delay: 0.55s
+        }
+        .char:nth-child(10) {
+            text-align: right;
+            transition-delay: 0.60s
+        }
+        .char:nth-child(11) {
+            transition-delay: 0.65s
+        }
+        .char:nth-child(12) {
+            text-align: right;
+            transition-delay: 0.75s
+        }
+    }
+}
+
+.star {
+    animation: mymove 3s infinite;
+}
+
+@keyframes mymove {
+    0% {
+        transform: scale(0.1);
+    }
+    50% {
+        transform: scale(0.15)
+    }
+    100% {
+        transform: scale(0.1)
+    }
+}

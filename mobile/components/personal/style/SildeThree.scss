@@ -1,0 +1,51 @@
+.container {
+    margin: 0 auto;
+    width: 4rem;
+    height: 3rem;
+    position: relative;
+    perspective: 1000px;
+    top: 4rem;
+    .carousel {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        transform-style: preserve-3d;
+        transition: transform 1s;
+        .item {
+            display: block;
+            position: absolute;
+            background: #000;
+            width: 4rem;
+            height: 3rem;
+            font-size: 5em;
+            text-align: center;
+            color: #FFF;
+            opacity: 0.95;
+            border-radius: 10px;
+        }
+        .a {
+            transform: rotateY(0deg) translateZ(4.2rem);
+            background: #ed1c24;
+        }
+        .b {
+            transform: rotateY(60deg) translateZ(4.2rem);
+            background: #0072bc;
+        }
+        .c {
+            transform: rotateY(120deg) translateZ(4.2rem);
+            background: #39b54a;
+        }
+        .d {
+            transform: rotateY(180deg) translateZ(4.2rem);
+            background: #f26522;
+        }
+        .e {
+            transform: rotateY(240deg) translateZ(4.2rem);
+            background: #630460;
+        }
+        .f {
+            transform: rotateY(300deg) translateZ(4.2rem);
+            background: #8c6239;
+        }
+    }
+}

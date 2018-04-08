@@ -1,0 +1,43 @@
+.side-four {
+    height: 100%;
+    width: 100%;
+    .bubble-content {
+        position: relative;
+        height: 100%;
+        perspective: 50vw;
+        overflow: hidden;
+        .bubble {
+            position: absolute;
+            z-index: 1;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.3) 60%, rgba(255, 255, 255, 1) 80%); // transform: translateX(-50%);
+            will-change: top, left;
+        }
+        .bubble::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            right: 25%;
+            width: 33%;
+            height: 33%;
+            border: 3px solid;
+            border-color: rgba(255, 255, 255, 0.8) transparent transparent transparent;
+            border-radius: 50%;
+            transform: rotate(45deg);
+        }
+    }
+}
+
+@keyframes bubblemove {
+    0% {
+        visibility: visible;
+        top: 14rem;
+        left: 1rem;
+    }
+    100% {
+        top: -4rem;
+        left: 5rem;
+    }
+}

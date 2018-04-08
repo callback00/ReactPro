@@ -1,0 +1,20 @@
+.swiper-personal-resume {
+    height: 100vh;
+    .swiper-wrapper {
+        .swiper-slide:nth-child(1) {
+            background: #4a9eda;
+        }
+        .swiper-slide:nth-child(2) {
+            background: #6872e0 // background: #ecf0f1
+        }
+        .swiper-slide:nth-child(3) {
+            background: #9966e0
+        }
+        .swiper-slide:nth-child(4) {
+            background: #d665e0
+        }
+        .swiper-slide:nth-child(5) {
+            background: #e066ad
+        }
+    }
+}
