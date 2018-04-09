@@ -1,6 +1,6 @@
 .cbd-input-inputgroup {
     position: relative;
-    height: 32px;
+    height: $input-height;
     width: 100%;
     display: inline-block;
     box-sizing: border-box;
@@ -21,6 +21,7 @@
             border: 1px solid #d9d9d9;
             border-right: 0px;
             box-sizing: border-box;
+            outline: none;
             &:hover {
                 border-color: $border-color;
             }
@@ -49,7 +50,6 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-
         }
         .cbd-input.cascader-text {
             height: 100%;
@@ -95,7 +95,7 @@
                         border-bottom: 1px solid #d9d9d9;
                         border-right: 1px solid #d9d9d9;
                         transform: rotate(-45deg);
-                        transform-origin: 75% 75%;
+                        transform-origin: 65% 65%;
                         top: 10px;
                     }
                 }
@@ -110,7 +110,7 @@
         border-bottom: 1px solid #d9d9d9;
         border-right: 1px solid #d9d9d9;
         transform: rotate(45deg);
-        transform-origin: 75% 75%;
+        transform-origin: 65% 65%;
         top: 10px;
         transition: 0.5s ease
     }

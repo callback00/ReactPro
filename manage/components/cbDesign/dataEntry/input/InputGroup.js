@@ -1,51 +1,6 @@
 
 import React from 'react'
-
-const jsonData = [
-    {
-        key: '1',
-        value: '南宁市',
-        children: [{
-            key: '1-1',
-            value: '青秀区',
-            children: [{
-                key: '1-1-1',
-                value: '竹溪大道',
-                children: [{
-                    key: '1-1-1',
-                    value: '竹溪大道',
-                }]
-            }, {
-                key: '1-1-2',
-                value: '双拥路',
-            }]
-        }, {
-            key: '1-2',
-            value: '江南区',
-            children: [{
-                key: '1-2-1',
-                value: '五一路',
-            }, {
-                key: '1-2-2',
-                value: '白沙大道',
-            }]
-        }, {
-            key: '1-2',
-            value: '良庆区',
-        }]
-    }, {
-        key: '2',
-        value: '柳州市',
-        children: [{
-            key: '1-1',
-            value: '柳城区',
-        }]
-    }, {
-        key: '3',
-        value: '梧州市',
-    }
-]
-
+import lodash from 'lodash'
 
 class InputGroup extends React.Component {
     constructor(props) {
@@ -55,13 +10,19 @@ class InputGroup extends React.Component {
             leftValue: { key: '', value: '' },
 
             leftOpenFlag: false,
+            leftSelect: true,
+
             rightOpenFlag: false,
 
             mouseLeaveMenu: true,
 
             valueArry: [],
+            menuArry: [],
             valueText: ''
         }
+
+        let tempData = lodash.cloneDeep(this.props.data)
+        this.data = tempData
     }
 
     onChange(e) {
@@ -74,10 +35,12 @@ class InputGroup extends React.Component {
     }
 
     onLeftSelect(e) {
-
         let flag = this.state.leftOpenFlag
         const el = e.target
         if (el.localName === 'li') {
+            if (!this.state.leftSelect) {
+                return
+            }
             const value = el.outerText
             const key = el.dataset.key
 
@@ -91,8 +54,15 @@ class InputGroup extends React.Component {
             });
             this.setState({
                 leftValue: { value, key },
-                leftOpenFlag: false
+                leftOpenFlag: false,
+                leftSelect: false
             })
+
+            setTimeout(() => {
+                this.setState({
+                    leftSelect: true
+                })
+            }, 500)
         } else {
 
             flag = !flag
@@ -123,6 +93,15 @@ class InputGroup extends React.Component {
 
             const parentUl = el.parentNode
 
+            // 获取当前选择的menu
+            let current_UL_Index = 0
+            for (let i = 0; i < menuDiv.childNodes.length; i++) {
+                if (menuDiv.childNodes[i] === parentUl) {
+                    current_UL_Index = i
+                }
+            }
+
+
             parentUl.childNodes.forEach(element => {
                 if (el === element) {
                     // 设置选择效果，else清除原来的选择
@@ -132,70 +111,8 @@ class InputGroup extends React.Component {
                     menuDiv.parentNode.childNodes[1].focus();
                     menuDiv.parentNode.childNodes[1].removeAttribute('placeholder')
 
-                    this.setState({
-                        rightOpenFlag: true
-                    })
-
-                    //当前所在页
-                    let current_UL_Index = 0
-
-                    // 判断点击的选项是否还有子节点，有子节点则添加ul或重新设置ul的innerHTML
-                    const children = element.dataset.children ? JSON.parse(element.dataset.children) : []
-                    if (children.length > 0) {
-
-                        for (let i = 0; i < menuDiv.childNodes.length; i++) {
-                            if (menuDiv.childNodes[i] === parentUl) {
-                                current_UL_Index = i
-                                let innerHTML = ''
-                                children.forEach(item => {
-                                    innerHTML = innerHTML + `<li class="${"cascader-menus-item-li" + `${item.children ? ' expend' : ''}`}" data-key=${item.key} data-children =${item.children ? JSON.stringify(item.children) : '[]'}>
-                                                                ${item.value}
-                                                             </li>`
-                                });
-
-                                if (menuDiv.childNodes[i + 1]) {
-                                    menuDiv.childNodes[i + 1].style.opacity = 1
-                                    menuDiv.childNodes[i + 1].innerHTML = innerHTML
-                                } else {
-                                    let ul = document.createElement('ul')
-                                    ul.className = "cascader-menus-item"
-                                    ul.innerHTML = innerHTML
-                                    menuDiv.appendChild(ul)
-                                }
-
-                                break;
-                            }
-                        }
-
-                        // 删除非相关ul
-                        for (let i = current_UL_Index + 2; i < menuDiv.childNodes.length; i++) {
-
-                            menuDiv.removeChild(menuDiv.childNodes[i])
-                            i--
-                        }
-                    }
-                    else {
-
-                        // 删除非相关ul
-                        for (let i = 0; i < menuDiv.childNodes.length; i++) {
-                            if (menuDiv.childNodes[i] === parentUl) {
-                                current_UL_Index = i
-                                break;
-                            }
-                        }
-
-                        // 删除点击后的
-                        for (let i = current_UL_Index + 1; i < menuDiv.childNodes.length; i++) {
-                            menuDiv.removeChild(menuDiv.childNodes[i])
-                            i--
-                        }
-
-                        this.setState({
-                            rightOpenFlag: false
-                        })
-                    }
-
                     //处理值显示
+                    let valueArry = this.state.valueArry
                     if (valueArry.length > 0) {
 
                         valueArry.splice(current_UL_Index, valueArry.length - current_UL_Index, { key: el.dataset.key, value: el.outerText })
@@ -207,10 +124,34 @@ class InputGroup extends React.Component {
                         })
                     }
 
-                    this.setState({
-                        valueArry
-                    })
+                    const childMenu = []
+                    const children = element.dataset.children ? JSON.parse(element.dataset.children) : []
 
+                    let menuArry = this.state.menuArry
+
+                    const length = this.state.menuArry.length
+                    let tempMenuArry = menuArry.splice(0, current_UL_Index + 1)
+
+                    if (children.length > 0) {
+
+                        children.forEach(child => {
+                            childMenu.push(child)
+                        });
+
+                        tempMenuArry[current_UL_Index + 1] = childMenu
+
+                        this.setState({
+                            rightOpenFlag: true,
+                            menuArry: tempMenuArry,
+                            valueArry
+                        })
+                    } else {
+                        this.setState({
+                            rightOpenFlag: false,
+                            menuArry: tempMenuArry,
+                            valueArry
+                        })
+                    }
                 } else {
                     element.className = `cascader-menus-item-li${element.dataset.children && JSON.parse(element.dataset.children).length > 0 ? ' expend' : ''}`
                 }
@@ -219,6 +160,12 @@ class InputGroup extends React.Component {
 
             flag = !flag
 
+            if (this.state.menuArry.length < 1) {
+                this.state.menuArry[0] = []
+                this.data.forEach(item => {
+                    this.state.menuArry[0].push(item)
+                });
+            }
             this.setState({
                 rightOpenFlag: flag
             })
@@ -246,13 +193,21 @@ class InputGroup extends React.Component {
     }
 
     renderRightMenu() {
-        const liList = jsonData.map((item, i) => {
+        const rtndata = this.state.menuArry.map((item, i) => {
             return (
-                <li className={"cascader-menus-item-li" + `${item.children ? ' expend' : ''}`} key={i} data-key={item.key} data-children={item.children !== null && item.children !== undefined && item.children !== '' ? JSON.stringify(item.children) : '[]'} >{item.value}</li>
+                <ul key={i} className="cascader-menus-item">
+                    {
+                        item.map((leafItem, n) => {
+                            return (
+                                <li className={"cascader-menus-item-li" + `${leafItem.children ? ' expend' : ''}`} key={`${i}-${n}`} data-key={leafItem.key} data-children={leafItem.children !== null && leafItem.children !== undefined && leafItem.children !== '' ? JSON.stringify(leafItem.children) : '[]'} >{leafItem.value}</li>
+                            )
+                        })
+                    }
+                </ul>
             )
-        });
+        })
 
-        return (liList)
+        return (rtndata)
     }
 
     renderRightValueText() {
@@ -278,7 +233,7 @@ class InputGroup extends React.Component {
                     <div tabIndex={0}>{this.state.leftValue.value}</div>
                     <span className="icon left" style={{ transform: this.state.leftOpenFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
 
-                    <ul style={{ opacity: this.state.leftOpenFlag ? 1 : 0 }} >
+                    <ul style={{ opacity: this.state.leftOpenFlag ? 1 : 0, visibility: this.state.leftOpenFlag ? 'visible' : 'hidden' }} >
                         <li data-key={1} >城市</li>
                         <li data-key={2}>公司</li>
                     </ul>
@@ -289,13 +244,10 @@ class InputGroup extends React.Component {
                         {this.renderRightValueText()}
                     </span>
                     <input className='cbd-input cascader-text' readOnly style={{ fontSize: style.fontSize }} placeholder={this.props.placeholder} type="text" ></input>
-                    <span className="icon right" />
+                    <span className="icon right" style={{ transform: this.state.rightOpenFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
 
                     <div onMouseLeave={this.onMouseLeave.bind(this)} onMouseEnter={this.onMouseEnter.bind(this)} className={`cascader-menus${this.state.rightOpenFlag ? '' : ' hidden'}`} >
-                        <ul className="cascader-menus-item">
-                            {this.renderRightMenu()}
-                        </ul>
-
+                        {this.renderRightMenu()}
                     </div>
                 </span>
 
