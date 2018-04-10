@@ -44,6 +44,16 @@ class Select extends React.Component {
         let flag = this.state.openFlag
         flag = !flag
 
+        if (e.target.className === "icon-clear") {
+            let value = { key: '', value: '' }
+            this.setState({
+                value
+            }, () => {
+                this.selectCallback()
+            })
+            return
+        }
+
         if (this.props.showSearch) {
             // 清空input的内容
             this.inputEl.value = ''
@@ -263,7 +273,9 @@ class Select extends React.Component {
                                     this.props.showSearch ? <input ref={(el) => { this.inputEl = el }} className={`${this.state.openFlag ? ' show' : ' hidden'}`} onChange={this.inputOnChange.bind(this)} onCompositionEnd={this.onCompositionEnd.bind(this)} type="text" /> : ''
                                 }
                             </div>
-                            <span className="icon" style={{ zIndex: 2, transform: this.state.openFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
+                            <span className="icon" style={{ transform: this.state.openFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
+
+                            <span className="icon-clear" style={{ display: this.state.value.value ? 'inline' : 'none' }} >x</span>
                         </div>
 
                         :
@@ -272,7 +284,8 @@ class Select extends React.Component {
 
                                 <div className="cbd-select-content-textvalue">{this.state.value.value ? this.state.value.value : <span style={{ color: '#bfbfbf' }} >{this.props.placeholder}</span>}</div>
                             </div>
-                            <span className="icon" style={{ zIndex: 2, transform: this.state.openFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
+                            <span className="icon" style={{ transform: this.state.openFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
+                            <span className="icon-clear" style={{ display: this.state.value.value ? 'inline' : 'none' }} >x</span>
                         </div>
                 }
 

@@ -3,6 +3,9 @@
     width: 100%;
     position: relative;
     cursor: pointer;
+    &:hover .cbd-select-content {
+        border-color: $border-color;
+    }
     .cbd-select-content {
         position: relative;
         height: 100%;
@@ -14,9 +17,6 @@
         border: 1px solid #d9d9d9;
         box-sizing: border-box;
         outline: none;
-        &:hover {
-            border-color: $border-color;
-        }
         &.activity {
             border-color: $border-color;
             box-shadow: 0px 0px 5px 0.1px $border-color;
@@ -59,6 +59,19 @@
         transform-origin: 65% 65%;
         top: 10px;
         transition: 0.5s ease
+    }
+    .icon-clear {
+        width: 15px;
+        height: 15px;
+        right: 28px;
+        position: absolute;
+        top: 8px;
+        background: #bfbfbf;
+        color: white;
+        border-radius: 25px;
+        text-align: center;
+        line-height: 13px;
+        font-size: 12px;
     }
 }
 
