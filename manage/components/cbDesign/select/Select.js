@@ -32,6 +32,14 @@ class Select extends React.Component {
         this.textValueEl = null
     }
 
+    // 回调函数
+    selectCallback() {
+        if (this.props.onChange) {
+            this.props.onChange({ value: this.state.value.key, text: this.state.value.value })
+        }
+    }
+
+    // 点击事件
     onClick(e) {
         let flag = this.state.openFlag
         flag = !flag
@@ -45,16 +53,23 @@ class Select extends React.Component {
             this.textValueEl.className = 'cbd-select-content-textvalue'
         }
 
-        this.setState({
-            openFlag: flag,
-            dropdownEl: this.props.children
-        }, () => {
-            if (this.props.showSearch) {
-                this.inputEl.focus();
-            }
-        })
+        if (flag) {
+            this.setState({
+                openFlag: flag,
+                dropdownEl: this.props.children
+            }, () => {
+                if (this.props.showSearch) {
+                    this.inputEl.focus();
+                }
+            })
+        } else {
+            this.setState({
+                openFlag: flag,
+            })
+        }
     }
 
+    // 失去焦点事件
     onBlur(e) {
         if (this.mouseLeaveDropdown && this.mouseLeaveContent) {
             this.setState({
@@ -72,6 +87,7 @@ class Select extends React.Component {
         }
     }
 
+    // 下列菜单选择事件
     onSelect(e) {
         let flag = this.state.openFlag
         const el = e.target
@@ -106,6 +122,8 @@ class Select extends React.Component {
                 this.setState({
                     value: { value, key },
                     openFlag: false,
+                }, () => {
+                    this.selectCallback()
                 })
 
                 setTimeout(() => {
@@ -118,14 +136,18 @@ class Select extends React.Component {
                 })
             }
         } else {
-            this.inputEl.focus();
+            if (this.props.showSearch) {
+                this.inputEl.focus();
+            }
         }
     }
 
+    // 鼠标离开下列菜单事件
     onMouseLeave(e) {
         this.mouseLeaveDropdown = true
     }
 
+    // 鼠标进入下列菜单事件
     onMouseEnter(e) {
         this.mouseLeaveDropdown = false
     }
@@ -138,6 +160,7 @@ class Select extends React.Component {
         this.mouseLeaveContent = false
     }
 
+    // 输入框监听事件
     inputOnChange(e) {
         if (e.target.value) {
             if (!this.hiddenTextValueFlag) {
@@ -152,6 +175,22 @@ class Select extends React.Component {
         }
     }
 
+    // 中文字符输入结束捕获事件
+    onCompositionEnd(e) {
+        if (e.target.value) {
+            if (!this.hiddenTextValueFlag) {
+                this.hiddenTextValueFlag = true
+                this.textValueEl.className = 'cbd-select-content-textvalue hidden'
+            }
+
+            this.filterDropdownData()
+        } else {
+            this.hiddenTextValueFlag = false
+            this.textValueEl.className = 'cbd-select-content-textvalue'
+        }
+    }
+
+    // 过滤数据处理
     filterDropdownData() {
         const com = this
         const data = React.Children.map(this.props.children, child => {
@@ -160,7 +199,7 @@ class Select extends React.Component {
             if (child.type === Option) {
 
                 if (com.inputEl.value) {
-                    if (child.props.children.indexOf(com.inputEl.value) > 0) {
+                    if (child.props.children.indexOf(com.inputEl.value) >= 0) {
                         const temp = React.cloneElement(child, {
                         })
 
@@ -178,8 +217,6 @@ class Select extends React.Component {
         this.setState({
             dropdownEl: data
         })
-
-        // return data
     }
 
     // 如果需要绑定事件，需重定义props,如果不需要绑定事件可以直接渲染this.props.children
@@ -188,7 +225,7 @@ class Select extends React.Component {
             <div className="cbd-select-dropdown-content" onMouseLeave={this.onMouseLeave.bind(this)} onMouseEnter={this.onMouseEnter.bind(this)}>
                 <ul className="cbd-select-dropdown-ul" onMouseUp={this.onSelect.bind(this)} >
                     {
-                        this.state.dropdownEl.length > 0 ? this.state.dropdownEl : <li className='cbd-select-dropdown disabled' >暂无数据</li>
+                        this.state.dropdownEl.length > 0 ? this.state.dropdownEl : <li className='cbd-select-dropdown disabled' >没有数据</li>
                     }
                 </ul>
             </div>
@@ -221,9 +258,9 @@ class Select extends React.Component {
                         <div style={this.props.style} onMouseLeave={this.onMouseLeaveContent.bind(this)} onMouseEnter={this.onMouseEnterContent.bind(this)} onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select`} >
                             <div className={`cbd-select-content${this.state.openFlag ? ' activity' : ''}`} tabIndex={0}>
 
-                                <div ref={(el) => { this.textValueEl = el }} className={`cbd-select-content-textvalue`} style={{ opacity: this.state.openFlag ? 0.4 : 1 }} >{this.state.value.value}</div>
+                                <div ref={(el) => { this.textValueEl = el }} className={`cbd-select-content-textvalue`} style={{ opacity: this.state.openFlag ? 0.4 : 1 }} >{this.state.value.value ? this.state.value.value : <span style={{ color: '#bfbfbf' }} >{this.props.placeholder}</span>}</div>
                                 {
-                                    this.props.showSearch ? <input ref={(el) => { this.inputEl = el }} className={`${this.state.openFlag ? ' show' : ' hidden'}`} onChange={this.inputOnChange.bind(this)} type="text" /> : ''
+                                    this.props.showSearch ? <input ref={(el) => { this.inputEl = el }} className={`${this.state.openFlag ? ' show' : ' hidden'}`} onChange={this.inputOnChange.bind(this)} onCompositionEnd={this.onCompositionEnd.bind(this)} type="text" /> : ''
                                 }
                             </div>
                             <span className="icon" style={{ zIndex: 2, transform: this.state.openFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
@@ -233,7 +270,7 @@ class Select extends React.Component {
                         <div style={this.props.style} onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select`} >
                             <div className={`cbd-select-content${this.state.openFlag ? ' activity' : ''}`} tabIndex={0}>
 
-                                <div className="cbd-select-content-textvalue">{this.state.value.value}</div>
+                                <div className="cbd-select-content-textvalue">{this.state.value.value ? this.state.value.value : <span style={{ color: '#bfbfbf' }} >{this.props.placeholder}</span>}</div>
                             </div>
                             <span className="icon" style={{ zIndex: 2, transform: this.state.openFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
                         </div>

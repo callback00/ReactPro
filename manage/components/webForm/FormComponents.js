@@ -43,7 +43,7 @@ class FormComponents extends React.Component {
 
                 <InputSearch style={{ fontSize: '18px', marginTop: '10px' }} onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
                 <InputGroup data={InputGroupData} style={{ fontSize: '16px', marginTop: '10px' }} onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
-                <Select showSearch style={{ marginTop: this.state.flag ? '10px' : '20px' }} >
+                <Select showSearch placeholder="请输入代码" style={{ marginTop: this.state.flag ? '10px' : '20px' }} >
                     <Option disabled value='test' >代理1</Option>
                     <Option value='test' >代理2</Option>
                     <Option value='test' >代理1</Option>
@@ -55,20 +55,23 @@ class FormComponents extends React.Component {
                     <Option value='test' >代理1</Option>
                     <Option value='test' >代理1</Option>
                     <Option value='test' >代理2</Option>
-                    {/* <Option disabled value='test' >代理3</Option>
-                    <Option value='test' >代理4</Option>
-                    <Option value='test' >代理5</Option>
-                    <Option value='test' >代理6</Option>
-                    <Option value='test' >代理7</Option>
-                    <Option value='test' >代理8</Option>
-                    <Option value='test' >代理9</Option>
-                    <Option value='test' >代理0</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理2</Option>
-                    <Option value='test' >代理3</Option> */}
                 </Select>
 
-                <TableReport data={this.state.flag ? TableReportData : []} columns={TableReportColumn} style={{ marginTop: '10px' }} />
+                <Select onChange={(e) => { console.log('回调数据', e) }} placeholder="请输入代码" style={{ marginTop: this.state.flag ? '10px' : '20px' }} >
+                    <Option disabled value='test' >代理1</Option>
+                    <Option value='test' >代理2</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理4</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理2</Option>
+                </Select>
+
+                <TableReport data={TableReportData} columns={TableReportColumn} style={{ marginTop: '10px' }} />
             </div>
         )
     }

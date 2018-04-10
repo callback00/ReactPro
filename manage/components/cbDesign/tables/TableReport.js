@@ -24,6 +24,11 @@ class TableReport extends React.Component {
         this.data = tempData
     }
 
+    componentWillMount() {
+        this.InitThead()
+        this.InitData()
+    }
+
     componentWillReceiveProps(nextProps) {
         let tempColumn = lodash.cloneDeep(nextProps.columns)
         this.columns = tempColumn
@@ -31,11 +36,6 @@ class TableReport extends React.Component {
         let tempData = lodash.cloneDeep(nextProps.data)
         this.data = tempData
 
-        this.InitData()
-    }
-
-    componentWillMount() {
-        this.InitThead()
         this.InitData()
     }
 
