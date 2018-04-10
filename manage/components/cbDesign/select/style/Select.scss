@@ -2,11 +2,12 @@
     height: $input-height;
     width: 100%;
     position: relative;
-    display: inline-block;
-    div {
+    cursor: pointer;
+    .cbd-select-content {
+        position: relative;
         height: 100%;
+        width: 100%;
         padding-right: 31px;
-        padding-left: 11px;
         overflow: hidden;
         text-overflow: ellipsis;
         line-height: 30px;
@@ -16,9 +17,37 @@
         &:hover {
             border-color: $border-color;
         }
-        &:focus {
+        &.activity {
             border-color: $border-color;
             box-shadow: 0px 0px 5px 0.1px $border-color;
+        }
+        .cbd-select-content-textvalue {
+            position: absolute;
+            padding-left: 11px;
+            font-size: $input-font-size;
+            z-index: 2;
+            &.hidden {
+                display: none;
+            }
+        }
+        input {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            font-size: $input-font-size;
+            padding-left: 11px;
+            box-sizing: border-box;
+            cursor: pointer;
+            background: transparent;
+            &.show {
+                outline: none;
+                border: none;
+                display: inline-block;
+                z-index: 1;
+            }
+            &.hidden {
+                display: none;
+            }
         }
     }
     .icon {

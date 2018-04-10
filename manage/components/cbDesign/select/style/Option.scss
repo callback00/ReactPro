@@ -24,6 +24,10 @@
             &:hover {
                 background: #E6F7FF
             }
+            &.disabled {
+                color: rgba(0, 0, 0, .25);
+                cursor: not-allowed;
+            }
         }
     }
 }

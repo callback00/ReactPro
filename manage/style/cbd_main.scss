@@ -2,6 +2,7 @@
 //全局样式，用于定制化主题
 $border-color: #40a9ff;
 $input-height:32px;
+$input-font-size:16px;
 @import '../components/cbDesign/dataEntry/input/style/Input.scss';
 @import '../components/cbDesign/dataEntry/input/style/InputGroup.scss';
 @import '../components/cbDesign/dataEntry/input/style/InputSearch.scss';
