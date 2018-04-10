@@ -30,6 +30,9 @@ class Select extends React.Component {
         this.inputEl = null
 
         this.textValueEl = null
+
+        // 可查询和不可查询的触发焦点不一致，不进行判断会导致onBlur事件失效
+        this.contentDiv = null
     }
 
     // 回调函数
@@ -69,12 +72,15 @@ class Select extends React.Component {
                 dropdownEl: this.props.children
             }, () => {
                 if (this.props.showSearch) {
-                    this.inputEl.focus();
+                    this.inputEl.focus()
+                } else {
+                    this.contentDiv.focus()
                 }
             })
         } else {
             this.setState({
                 openFlag: flag,
+            }, () => {
             })
         }
     }
@@ -148,6 +154,8 @@ class Select extends React.Component {
         } else {
             if (this.props.showSearch) {
                 this.inputEl.focus();
+            } else {
+                this.contentDiv.focus()
             }
         }
     }
@@ -280,7 +288,7 @@ class Select extends React.Component {
 
                         :
                         <div style={this.props.style} onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select`} >
-                            <div className={`cbd-select-content${this.state.openFlag ? ' activity' : ''}`} tabIndex={0}>
+                            <div ref={(el) => { this.contentDiv = el }} className={`cbd-select-content${this.state.openFlag ? ' activity' : ''}`} tabIndex={0}>
 
                                 <div className="cbd-select-content-textvalue">{this.state.value.value ? this.state.value.value : <span style={{ color: '#bfbfbf' }} >{this.props.placeholder}</span>}</div>
                             </div>
