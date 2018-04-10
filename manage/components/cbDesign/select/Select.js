@@ -10,6 +10,8 @@ class Select extends React.Component {
             value: { key: '', value: '' },
 
             openFlag: false,
+
+            dropdownEl: props.children
         }
 
         //this.props.showSearch 为真时需要多处理一步
@@ -37,12 +39,15 @@ class Select extends React.Component {
         if (this.props.showSearch) {
             // 清空input的内容
             this.inputEl.value = ''
+
+            // 显示文本框
             this.hiddenTextValueFlag = false
             this.textValueEl.className = 'cbd-select-content-textvalue'
         }
 
         this.setState({
             openFlag: flag,
+            dropdownEl: this.props.children
         }, () => {
             if (this.props.showSearch) {
                 this.inputEl.focus();
@@ -60,6 +65,7 @@ class Select extends React.Component {
                 // 清空input的内容
                 this.inputEl.value = ''
 
+                // 显示文本框
                 this.hiddenTextValueFlag = false
                 this.textValueEl.className = 'cbd-select-content-textvalue'
             }
@@ -70,47 +76,49 @@ class Select extends React.Component {
         let flag = this.state.openFlag
         const el = e.target
 
-        if (el.className.indexOf("disabled") !== -1) {
-            return
-        }
-        if (el.localName === 'li') {
+        if (el.className.indexOf("disabled") < 0) {
+            if (el.localName === 'li') {
 
-            if (this.selecting) {
-                return
-            }
-
-            if (this.props.showSearch) {
-                this.hiddenTextValueFlag = false
-                this.textValueEl.className = 'cbd-select-content-textvalue'
-            }
-
-            this.selecting = true
-            const value = el.outerText
-            const key = el.dataset.key
-
-            const parentNode = el.parentNode
-            parentNode.childNodes.forEach(element => {
-                if (el === element) {
-                    element.className = element.className + ' select'
-                } else {
-                    if (element.className.indexOf("disabled") < 0) {
-                        element.className = 'cbd-select-dropdown-li'
-                    }
+                if (this.selecting) {
+                    return
                 }
-            });
-            this.setState({
-                value: { value, key },
-                openFlag: false,
-            })
 
-            setTimeout(() => {
-                this.selecting = false
-            }, 500)
+                if (this.props.showSearch) {
+                    // 显示文本框
+                    this.hiddenTextValueFlag = false
+                    this.textValueEl.className = 'cbd-select-content-textvalue'
+                }
+
+                this.selecting = true
+                const value = el.outerText
+                const key = el.dataset.key
+
+                const parentNode = el.parentNode
+                parentNode.childNodes.forEach(element => {
+                    if (el === element) {
+                        element.className = element.className + ' select'
+                    } else {
+                        if (element.className.indexOf("disabled") < 0) {
+                            element.className = 'cbd-select-dropdown-li'
+                        }
+                    }
+                });
+                this.setState({
+                    value: { value, key },
+                    openFlag: false,
+                })
+
+                setTimeout(() => {
+                    this.selecting = false
+                }, 500)
+            } else {
+                flag = !flag
+                this.setState({
+                    openFlag: flag
+                })
+            }
         } else {
-            flag = !flag
-            this.setState({
-                openFlag: flag
-            })
+            this.inputEl.focus();
         }
     }
 
@@ -136,21 +144,52 @@ class Select extends React.Component {
                 this.hiddenTextValueFlag = true
                 this.textValueEl.className = 'cbd-select-content-textvalue hidden'
             }
+
+            this.filterDropdownData()
         } else {
             this.hiddenTextValueFlag = false
             this.textValueEl.className = 'cbd-select-content-textvalue'
-
-            console.log(1)
         }
+    }
+
+    filterDropdownData() {
+        const com = this
+        const data = React.Children.map(this.props.children, child => {
+            let props = child.props
+
+            if (child.type === Option) {
+
+                if (com.inputEl.value) {
+                    if (child.props.children.indexOf(com.inputEl.value) > 0) {
+                        const temp = React.cloneElement(child, {
+                        })
+
+                        return temp
+                    }
+                } else {
+                    return child
+                }
+            }
+            else {
+                return child
+            }
+        })
+
+        this.setState({
+            dropdownEl: data
+        })
+
+        // return data
     }
 
     // 如果需要绑定事件，需重定义props,如果不需要绑定事件可以直接渲染this.props.children
     renderOpt() {
-
         return (
             <div className="cbd-select-dropdown-content" onMouseLeave={this.onMouseLeave.bind(this)} onMouseEnter={this.onMouseEnter.bind(this)}>
                 <ul className="cbd-select-dropdown-ul" onMouseUp={this.onSelect.bind(this)} >
-                    {this.props.children}
+                    {
+                        this.state.dropdownEl.length > 0 ? this.state.dropdownEl : <li className='cbd-select-dropdown disabled' >暂无数据</li>
+                    }
                 </ul>
             </div>
         )
@@ -166,6 +205,7 @@ class Select extends React.Component {
                 popupClassName="cbd-select-dropdown"
                 popupPlacement="bottomLeft"
                 popupVisible={this.state.openFlag}
+
                 popupTransitionName="cbd-trigger-popup-slide"
                 builtinPlacements={
                     {

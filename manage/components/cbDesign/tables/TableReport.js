@@ -30,9 +30,17 @@ class TableReport extends React.Component {
 
         let tempData = lodash.cloneDeep(nextProps.data)
         this.data = tempData
+
+        this.InitData()
     }
 
     componentWillMount() {
+        this.InitThead()
+        this.InitData()
+    }
+
+    //初始化表头
+    InitThead() {
         const theadArry = this.theadArry
         this.columns.forEach(item => {
 
@@ -54,6 +62,10 @@ class TableReport extends React.Component {
                 }
             });
         });
+    }
+
+    // 重新处理传入的数据
+    InitData() {
 
         // 处理需要合并单元格的数据
         this.data.forEach(item => {

@@ -17,6 +17,7 @@ class FormComponents extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            flag: true
         }
     }
 
@@ -24,20 +25,37 @@ class FormComponents extends React.Component {
         console.log(value)
     }
 
+    onClick() {
+        let flag = this.state.flag
+        this.setState({
+            flag: !flag
+        })
+    }
+
     render() {
         return (
             <div className="test11">
+
+                <button onClick={this.onClick.bind(this)} type="button">Click Me!</button>
                 <Input style={{ fontSize: '16px' }} onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
 
                 <TextArea style={{ fontSize: '16px', marginTop: '10px' }} rows={6} onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
 
                 <InputSearch style={{ fontSize: '18px', marginTop: '10px' }} onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
                 <InputGroup data={InputGroupData} style={{ fontSize: '16px', marginTop: '10px' }} onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
-                <Select showSearch style={{ marginTop: '10px' }} >
-                    <Option value='test' >代理1</Option>
-                    <Option value='test2' >测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</Option>
+                <Select showSearch style={{ marginTop: this.state.flag ? '10px' : '20px' }} >
+                    <Option disabled value='test' >代理1</Option>
                     <Option value='test' >代理2</Option>
-                    <Option disabled value='test' >代理3</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理4</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理1</Option>
+                    <Option value='test' >代理2</Option>
+                    {/* <Option disabled value='test' >代理3</Option>
                     <Option value='test' >代理4</Option>
                     <Option value='test' >代理5</Option>
                     <Option value='test' >代理6</Option>
@@ -47,9 +65,10 @@ class FormComponents extends React.Component {
                     <Option value='test' >代理0</Option>
                     <Option value='test' >代理1</Option>
                     <Option value='test' >代理2</Option>
-                    <Option value='test' >代理3</Option>
+                    <Option value='test' >代理3</Option> */}
                 </Select>
-                <TableReport data={TableReportData} columns={TableReportColumn} style={{ marginTop: '10px' }} />
+
+                <TableReport data={this.state.flag ? TableReportData : []} columns={TableReportColumn} style={{ marginTop: '10px' }} />
             </div>
         )
     }
