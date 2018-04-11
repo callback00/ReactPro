@@ -1,77 +1,84 @@
 .cbd-select {
-    height: $input-height;
-    width: 100%;
+    // 这一层的样式是用来防止自定义position改为absolute
+    display: inline-block;
+    box-sizing: border-box;
     position: relative;
-    cursor: pointer;
-    &:hover .cbd-select-content {
-        border-color: $border-color;
-    }
-    .cbd-select-content {
-        position: relative;
-        height: 100%;
+    width: 100%;
+    .cbd-select-el {
+        height: $input-height;
         width: 100%;
-        padding-right: 31px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: 30px;
-        border: 1px solid #d9d9d9;
-        box-sizing: border-box;
-        outline: none;
-        &.activity {
+        position: relative;
+        cursor: pointer;
+        &:hover .cbd-select-content {
             border-color: $border-color;
-            box-shadow: 0px 0px 5px 0.1px $border-color;
         }
-        .cbd-select-content-textvalue {
-            position: absolute;
-            padding-left: 11px;
-            font-size: $input-font-size;
-            &.hidden {
-                display: none;
-            }
-        }
-        input {
+        .cbd-select-content {
+            position: relative;
             height: 100%;
             width: 100%;
-            position: absolute;
-            font-size: $input-font-size;
-            padding-left: 11px;
+            padding-right: 31px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 30px;
+            border: 1px solid #d9d9d9;
             box-sizing: border-box;
-            cursor: pointer;
-            background: transparent;
-            &.show {
-                outline: none;
-                border: none;
-                display: inline-block;
+            outline: none;
+            &.activity {
+                border-color: $border-color;
+                box-shadow: 0px 0px 5px 0.1px $border-color;
             }
-            &.hidden {
-                display: none;
+            .cbd-select-content-textvalue {
+                position: absolute;
+                padding-left: 11px;
+                font-size: $input-font-size;
+                &.hidden {
+                    display: none;
+                }
+            }
+            input {
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                font-size: $input-font-size;
+                padding-left: 11px;
+                box-sizing: border-box;
+                cursor: pointer;
+                background: transparent;
+                &.show {
+                    outline: none;
+                    border: none;
+                    display: inline-block;
+                }
+                &.hidden {
+                    display: none;
+                }
             }
         }
-    }
-    .icon {
-        width: 7px;
-        height: 7px;
-        right: 10px;
-        position: absolute;
-        border-bottom: 1px solid #d9d9d9;
-        border-right: 1px solid #d9d9d9;
-        transform: rotate(45deg);
-        transform-origin: 65% 65%;
-        top: 10px;
-        transition: 0.5s ease
-    }
-    .icon-clear {
-        width: 15px;
-        height: 15px;
-        right: 28px;
-        position: absolute;
-        top: 8px;
-        background: #bfbfbf;
-        color: white;
-        border-radius: 25px;
-        text-align: center;
-        line-height: 13px;
-        font-size: 12px;
+        .icon {
+            width: 7px;
+            height: 7px;
+            right: 10px;
+            position: absolute;
+            border-bottom: 1px solid #d9d9d9;
+            border-right: 1px solid #d9d9d9;
+            transform: rotate(45deg);
+            transform-origin: 65% 65%;
+            top: 10px;
+            transition: 0.5s ease
+        }
+        .icon-clear {
+            width: 15px;
+            height: 15px;
+            right: 28px;
+            position: absolute;
+            top: 8px;
+            background: #bfbfbf;
+            color: white;
+            border-radius: 25px;
+            text-align: center;
+            line-height: 13px;
+            font-size: 12px;
+        }
     }
 }
 

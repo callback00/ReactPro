@@ -1,0 +1,92 @@
+.cbd-checkbox-wrapper {
+    font-size: $input-font-size;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, .65);
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: unset;
+    cursor: pointer;
+    display: inline-block;
+    .cbd-checkbox {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        white-space: nowrap;
+        outline: none;
+        line-height: 1;
+        vertical-align: middle;
+        top: -.09em;
+        display: inline-block;
+        position: relative;
+        &.checked {
+            &:after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 2px;
+                border: 1px solid #1890ff;
+                content: "";
+                box-sizing: border-box;
+                animation: antCheckboxEffect .36s ease-in-out;
+                animation-fill-mode: both;
+            }
+        }
+        .cbd-checkbox-input {
+            opacity: 0;
+            position: absolute;
+            &:hover+.cbd-checkbox-inner {
+                border-color: #1890ff
+            }
+            &:checked+.cbd-checkbox-inner {
+                background: #1890ff;
+                border-color: #1890ff;
+                color: white;
+            }
+            &:checked+.cbd-checkbox-inner:after {
+                transform: rotate(45deg) scale(1);
+                transition: all .2s cubic-bezier(.12, .4, .29, 1.46) .1s;
+            }
+        }
+        .cbd-checkbox-inner {
+            height: 16px;
+            width: 16px;
+            display: block;
+            position: relative;
+            border: 1px solid #d9d9d9;
+            border-radius: 2px;
+            background-color: #fff;
+            &:after {
+                transform: rotate(45deg) scale(0);
+                position: absolute;
+                left: 4.6px;
+                top: 1.14px;
+                display: table;
+                width: 5.7px;
+                height: 9.14px;
+                border: 2px solid #fff;
+                border-top: 0;
+                border-left: 0;
+                content: " ";
+                transition: all .1s cubic-bezier(.71, -.46, .88, .6);
+            }
+        }
+    }
+    .cb-checkbox-text {
+        padding: 0 10px 0 10px
+    }
+}
+
+@keyframes antCheckboxEffect {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
+}

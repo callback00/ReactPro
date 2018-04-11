@@ -3,6 +3,7 @@
 $border-color: #40a9ff;
 $input-height:32px;
 $input-font-size:16px;
+
 @import '../components/cbDesign/dataEntry/input/style/Input.scss';
 @import '../components/cbDesign/dataEntry/input/style/InputGroup.scss';
 @import '../components/cbDesign/dataEntry/input/style/InputSearch.scss';
@@ -14,3 +15,6 @@ $input-font-size:16px;
 
 @import '../components/cbDesign/select/style/Select.scss';
 @import '../components/cbDesign/select/style/Option.scss';
+
+/*----------------------------checkbox---------------------------------*/
+@import '../components/cbDesign/checkbox/style/Checkbox.scss';

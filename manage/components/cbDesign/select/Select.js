@@ -273,27 +273,31 @@ class Select extends React.Component {
             >
                 {
                     this.props.showSearch ?
-                        <div style={this.props.style} onMouseLeave={this.onMouseLeaveContent.bind(this)} onMouseEnter={this.onMouseEnterContent.bind(this)} onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select`} >
-                            <div className={`cbd-select-content${this.state.openFlag ? ' activity' : ''}`} tabIndex={0}>
+                        <div className="cbd-select" style={this.props.style} >
+                            <div onMouseLeave={this.onMouseLeaveContent.bind(this)} onMouseEnter={this.onMouseEnterContent.bind(this)} onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select-el`} >
+                                <div className={`cbd-select-content${this.state.openFlag ? ' activity' : ''}`} tabIndex={0}>
 
-                                <div ref={(el) => { this.textValueEl = el }} className={`cbd-select-content-textvalue`} style={{ opacity: this.state.openFlag ? 0.4 : 1 }} >{this.state.value.value ? this.state.value.value : <span style={{ color: '#bfbfbf' }} >{this.props.placeholder}</span>}</div>
-                                {
-                                    this.props.showSearch ? <input ref={(el) => { this.inputEl = el }} className={`${this.state.openFlag ? ' show' : ' hidden'}`} onChange={this.inputOnChange.bind(this)} onCompositionEnd={this.onCompositionEnd.bind(this)} type="text" /> : ''
-                                }
+                                    <div ref={(el) => { this.textValueEl = el }} className={`cbd-select-content-textvalue`} style={{ opacity: this.state.openFlag ? 0.4 : 1 }} >{this.state.value.value ? this.state.value.value : <span style={{ color: '#bfbfbf' }} >{this.props.placeholder}</span>}</div>
+                                    {
+                                        this.props.showSearch ? <input ref={(el) => { this.inputEl = el }} className={`${this.state.openFlag ? ' show' : ' hidden'}`} onChange={this.inputOnChange.bind(this)} onCompositionEnd={this.onCompositionEnd.bind(this)} type="text" /> : ''
+                                    }
+                                </div>
+                                <span className="icon" style={{ transform: this.state.openFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
+
+                                <span className="icon-clear" style={{ display: this.state.value.value ? 'inline' : 'none' }} >x</span>
                             </div>
-                            <span className="icon" style={{ transform: this.state.openFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
-
-                            <span className="icon-clear" style={{ display: this.state.value.value ? 'inline' : 'none' }} >x</span>
                         </div>
 
                         :
-                        <div style={this.props.style} onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select`} >
-                            <div ref={(el) => { this.contentDiv = el }} className={`cbd-select-content${this.state.openFlag ? ' activity' : ''}`} tabIndex={0}>
+                        <div className="cbd-select" style={this.props.style} >
+                            <div onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select-el`} >
+                                <div ref={(el) => { this.contentDiv = el }} className={`cbd-select-content${this.state.openFlag ? ' activity' : ''}`} tabIndex={0}>
 
-                                <div className="cbd-select-content-textvalue">{this.state.value.value ? this.state.value.value : <span style={{ color: '#bfbfbf' }} >{this.props.placeholder}</span>}</div>
+                                    <div className="cbd-select-content-textvalue">{this.state.value.value ? this.state.value.value : <span style={{ color: '#bfbfbf' }} >{this.props.placeholder}</span>}</div>
+                                </div>
+                                <span className="icon" style={{ transform: this.state.openFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
+                                <span className="icon-clear" style={{ display: this.state.value.value ? 'inline' : 'none' }} >x</span>
                             </div>
-                            <span className="icon" style={{ transform: this.state.openFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
-                            <span className="icon-clear" style={{ display: this.state.value.value ? 'inline' : 'none' }} >x</span>
                         </div>
                 }
 

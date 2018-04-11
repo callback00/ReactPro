@@ -49,7 +49,7 @@ module.exports = {
           'css-loader',
           'postcss-loader',
           'sass-loader'
-        ]
+        ],
       }, // end of scss|sass rules
 
       { // css rules
@@ -58,7 +58,17 @@ module.exports = {
           'style-loader',
           'css-loader',
           'postcss-loader',
-        ]
+        ],
+        exclude: /flexboxgrid/
+      }, // end of css rules
+
+      { // flexboxgrid 不能用postcss-loader自动加前缀
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+        include: /flexboxgrid/
       }, // end of css rules
 
       {
