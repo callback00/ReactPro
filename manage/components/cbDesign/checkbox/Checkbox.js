@@ -14,14 +14,21 @@ class Checkbox extends React.Component {
             checked
         })
 
-        this.props.onChange ? this.props.onChange('checkbox回调测试') : null
+        this.props.onChange ? this.props.onChange(checked) : null
     }
 
     render() {
+
+        const {
+            defaultChecked,
+            disabled,
+            style
+        } = this.props
+
         return (
-            <label className="cbd-checkbox-wrapper" style={this.props.style}>
-                <span className={`cbd-checkbox${this.state.checked ? ' checked' : ''}`}>
-                    <input type="checkbox" onChange={this.onChange.bind(this)} defaultChecked className="cbd-checkbox-input" />
+            <label className="cbd-checkbox-wrapper" style={style}>
+                <span className={`cbd-checkbox${this.state.checked ? ' checked' : ''}${disabled ? ' disabled' : ''}`}>
+                    <input type="checkbox" onChange={this.onChange.bind(this)} disabled={disabled} defaultChecked={defaultChecked} className={`cbd-checkbox-input`} />
                     <span className="cbd-checkbox-inner" />
                 </span>
                 <span className="cb-checkbox-text" data-key={this.props.value} >{this.props.children}</span>

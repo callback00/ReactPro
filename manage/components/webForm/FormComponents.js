@@ -8,8 +8,10 @@ import InputGroup from '../cbDesign/dataEntry/input/InputGroup'
 import TableReport from '../cbDesign/tables/TableReport'
 import Select from '../cbDesign/select/Select'
 import Checkbox from '../cbDesign/checkbox/Checkbox'
+import Steps from '../cbDesign/steps/Steps'
 
 const Option = Select.Option
+const Step = Steps.Step
 
 import TableReportData from '../../public/data/TableReportData.json'
 import TableReportColumn from '../../public/data/TableReportColumn.json'
@@ -20,7 +22,8 @@ class FormComponents extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            flag: true
+            flag: true,
+            currentStep: 0
         }
     }
 
@@ -30,13 +33,21 @@ class FormComponents extends React.Component {
 
     onClick() {
         let flag = this.state.flag
+
+        let currentStep = this.state.currentStep
+        if (currentStep > 2) {
+            currentStep = 0
+        } else {
+            currentStep++
+        }
         this.setState({
-            flag: !flag
+            flag: !flag,
+            currentStep
         })
     }
 
     render() {
-
+        console.log('currentStep:', this.state.currentStep)
         return (
             <div className="test11">
 
@@ -77,9 +88,24 @@ class FormComponents extends React.Component {
 
                 <TableReport className="tes" data={TableReportData} columns={TableReportColumn} style={{ marginTop: '10px' }} />
 
-                <Checkbox onChange={(e)=>{console.log(e)}} value="123456">代理</Checkbox>
+                <Checkbox defaultChecked onChange={(e) => { console.log(e) }} value="123456">代理</Checkbox>
+                <Checkbox disabled defaultChecked onChange={(e) => { console.log(e) }} value="123456">苹果</Checkbox>
 
-                <Grid className="cbd-grid" style={{ height: '200px', width: '100%' }} >
+                <Steps current={this.state.currentStep} direction="vertical" size="small" style={{ marginTop: '30px' }} >
+                    <Step title="接单" description="等待商家接单中" />
+                    <Step title="等待发货" description="等待卖家发货" />
+                    <Step title="运输中" description="卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货" />
+                    <Step title="收货" description="等待买家收货" />
+                </Steps>
+
+                <Steps current={this.state.currentStep} style={{ marginTop: '30px' }} >
+                    <Step title="接单" description="等待商家接单中" />
+                    <Step title="等待发货" description="等待卖家发货" />
+                    <Step title="运输中" description="卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货" />
+                    <Step title="收货" description="等待买家收货" />
+                </Steps>
+
+                {/* <Grid className="cbd-grid" style={{ height: '200px', width: '100%' }} >
                     <Row>
                         <Col xs={12} sm={3} md={2} lg={1} >1</Col>
                         <Col xs={6} sm={6} md={8} lg={10} >2</Col>
@@ -106,7 +132,7 @@ class FormComponents extends React.Component {
                             </Row>
                         </Col>
                     </Row>
-                </Grid>
+                </Grid> */}
 
             </div>
         )

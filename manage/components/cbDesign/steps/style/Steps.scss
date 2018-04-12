@@ -1,0 +1,213 @@
+.cbd-steps {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    display: flex;
+    .cbd-steps-item {
+        display: inline-block;
+        flex: 1;
+        margin-right: 20px;
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+        .cbd-steps-item-tail {
+            display: none;
+        }
+        .cbd-steps-item-icon {
+            height: 32px;
+            width: 32px;
+            vertical-align: top;
+            line-height: 30px;
+            display: inline-block;
+            text-align: center;
+            border-radius: 32px;
+            box-sizing: border-box;
+            margin-right: 5px;
+            border: 1px solid rgba(0, 0, 0, .25);
+            background-color: #fff;
+        }
+        .cbd-steps-item-content {
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 5px;
+            box-sizing: border-box;
+            max-width: 60%;
+            .cbd-steps-item-content-title {
+                display: inline;
+                position: relative;
+                padding-right: 10px;
+                &:after {
+                    content: '';
+                    height: 1px;
+                    width: 1200px;
+                    display: block;
+                    top: 50%;
+                    left: 100%;
+                    background: #e9e9e9;
+                    position: absolute;
+                }
+            }
+            .cbd-steps-item-content-description {
+                display: block;
+                white-space: normal;
+                color: rgba(0, 0, 0, .35);
+                font-size: 14px;
+                margin-top: 5px;
+            }
+        }
+        &.finish {
+            .cbd-steps-item-icon {
+                border-color: #1890ff;
+                .cbd-steps-icon {
+                    position: relative;
+                    &:after {
+                        transform: rotate(45deg);
+                        position: absolute;
+                        left: 12.5px;
+                        top: 7px;
+                        display: table;
+                        width: 6.7px;
+                        height: 13px;
+                        border: 1px solid #1890ff;
+                        border-top: 0;
+                        border-left: 0;
+                        content: " ";
+                    }
+                }
+            }
+            .cbd-steps-item-content-title {
+                &:after {
+                    background: #1890ff;
+                }
+            }
+        }
+        &.process {
+            .cbd-steps-item-icon {
+                border-color: #1890ff;
+                background-color: #1890ff;
+                .cbd-steps-icon {
+                    color: white;
+                }
+            }
+            .cbd-steps-item-content-title {
+                color: rgba(0, 0, 0, .85);
+                font-weight: bold;
+            }
+        }
+        &:last-child {
+            // 最后一个元素不显示横向
+            .cbd-steps-item-content-title {
+                &:after {
+                    display: none !important;
+                }
+            }
+        }
+    }
+    &.small {
+        .cbd-steps-item-tail {
+            &:after {
+                top: 28px !important;
+                left: 11px !important;
+            }
+        }
+        .cbd-steps-item-icon {
+            height: 24px;
+            width: 24px;
+            line-height: 24px;
+            .cbd-steps-icon {
+                &:after {
+                    left: 9.5px !important;
+                    top: 5px !important;
+                    width: 5.7px !important;
+                    height: 11px !important;
+                }
+            }
+        }
+        .cbd-steps-item-content {
+            margin-top: 0 !important;
+        }
+    }
+    &.vertical {
+        flex-direction: column;
+        .cbd-steps-item {
+            margin-bottom: 5px;
+            .cbd-steps-item-content-title {
+                &:after {
+                    display: none !important;
+                }
+            }
+            .cbd-steps-item-tail {
+                display: block;
+                &:after {
+                    content: '';
+                    height: 100%;
+                    width: 1px;
+                    display: block;
+                    top: 35px;
+                    left: 15px;
+                    background: #e9e9e9;
+                    position: absolute;
+                }
+            }
+            &:last-child {
+                // 最后一个元素不显示横向
+                .cbd-steps-item-tail {
+                    &:after {
+                        display: none !important;
+                    }
+                }
+            }
+            &.finish {
+                .cbd-steps-item-tail {
+                    &:after {
+                        background: #1890ff;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .cbd-steps {
+        // 这里的代码跟&.vertical 的一致
+        flex-direction: column;
+        .cbd-steps-item {
+            margin-bottom: 5px;
+            .cbd-steps-item-content-title {
+                &:after {
+                    display: none !important;
+                }
+            }
+            .cbd-steps-item-tail {
+                display: block;
+                &:after {
+                    content: '';
+                    height: 100%;
+                    width: 1px;
+                    display: block;
+                    top: 35px;
+                    left: 15px;
+                    background: #e9e9e9;
+                    position: absolute;
+                }
+            }
+            &:last-child {
+                // 最后一个元素不显示横向
+                .cbd-steps-item-tail {
+                    &:after {
+                        display: none !important;
+                    }
+                }
+            }
+            &.finish {
+                .cbd-steps-item-tail {
+                    &:after {
+                        background: #1890ff;
+                    }
+                }
+            }
+        }
+    }
+}
