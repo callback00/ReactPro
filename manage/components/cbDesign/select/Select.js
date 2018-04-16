@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom';
+import lodash from 'lodash'
 import Trigger from 'rc-trigger';
 import 'rc-trigger/assets/index.css';
 
@@ -79,14 +80,12 @@ class Select extends React.Component {
         } else {
             this.setState({
                 openFlag: flag,
-            }, () => {
             })
         }
     }
 
     // 失去焦点事件
     onBlur(e) {
-        console.log('触发事件')
         if (this.mouseLeaveDropdown && this.mouseLeaveContent) {
             this.setState({
                 openFlag: false
@@ -125,8 +124,7 @@ class Select extends React.Component {
                 const value = el.outerText
                 const key = el.dataset.key
 
-                const parentNode = el.parentNode
-                parentNode.childNodes.forEach(element => {
+                lodash.forEach(el.parentElement.children, (element) => {
                     if (el === element) {
                         element.className = element.className + ' select'
                     } else {
@@ -134,7 +132,8 @@ class Select extends React.Component {
                             element.className = 'cbd-select-dropdown-li'
                         }
                     }
-                });
+                })
+
                 this.setState({
                     value: { value, key },
                     openFlag: false,
@@ -270,36 +269,6 @@ class Select extends React.Component {
                 }
                 popup={this.renderOpt.bind(this)}
             >
-                {/* {
-                    this.props.showSearch ?
-                        <div className="cbd-select" style={this.props.style} >
-                            <div onMouseLeave={this.onMouseLeaveContent.bind(this)} onMouseEnter={this.onMouseEnterContent.bind(this)} onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select-el`} >
-                                <div className={`cbd-select-content${this.state.openFlag ? ' activity' : ''}`} tabIndex={0}>
-
-                                    <div ref={(el) => { this.textValueEl = el }} className={`cbd-select-content-textvalue`} style={{ opacity: this.state.openFlag ? 0.4 : 1 }} >{this.state.value.value ? this.state.value.value : <span style={{ color: '#bfbfbf' }} >{this.props.placeholder}</span>}</div>
-                                    {
-                                        this.props.showSearch ? <input ref={(el) => { this.inputEl = el }} className={`${this.state.openFlag ? ' show' : ' hidden'}`} onChange={this.inputOnChange.bind(this)} onCompositionEnd={this.onCompositionEnd.bind(this)} type="text" /> : ''
-                                    }
-                                </div>
-                                <span className="icon" style={{ transform: this.state.openFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
-
-                                <span className="icon-clear" style={{ display: this.state.value.value ? 'inline' : 'none' }} >x</span>
-                            </div>
-                        </div>
-
-                        :
-                        <div className="cbd-select" style={this.props.style} >
-                            <div onMouseLeave={this.onMouseLeaveContent.bind(this)} onMouseEnter={this.onMouseEnterContent.bind(this)} onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select-el`} >
-                                <div ref={(el) => { this.contentDiv = el }} className={`cbd-select-content${this.state.openFlag ? ' activity' : ''}`} tabIndex={0}>
-
-                                    <div className="cbd-select-content-textvalue">{this.state.value.value ? this.state.value.value : <span style={{ color: '#bfbfbf' }} >{this.props.placeholder}</span>}</div>
-                                </div>
-                                <span className="icon" style={{ transform: this.state.openFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
-                                <span className="icon-clear" style={{ display: this.state.value.value ? 'inline' : 'none' }} >x</span>
-                            </div>
-                        </div>
-                } */}
-
                 {
                     <div className="cbd-select" style={this.props.style} >
                         <div onMouseLeave={this.onMouseLeaveContent.bind(this)} onMouseEnter={this.onMouseEnterContent.bind(this)} onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select-el`} >

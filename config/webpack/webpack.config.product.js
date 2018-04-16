@@ -1,22 +1,6 @@
-/**************************************
- * Created by Hertz on 2015年8月24日
- **************************************/
 const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
-// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-
-
-// 读取node_modules列表，放入externals排除这些库不要buildin
-// const nodeModules = {}
-// fs.readdirSync('node_modules')
-//     .filter(function (x) {
-//         return ['.bin'].indexOf(x) === -1
-//     })
-//     .forEach(function (mod) {
-//         nodeModules[mod] = 'commonjs ' + mod
-//     })
-
 
 // webpack 配置
 module.exports = [
