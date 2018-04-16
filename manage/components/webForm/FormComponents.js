@@ -9,6 +9,10 @@ import TableReport from '../cbDesign/tables/TableReport'
 import Select from '../cbDesign/select/Select'
 import Checkbox from '../cbDesign/checkbox/Checkbox'
 import Steps from '../cbDesign/steps/Steps'
+import Slider from '../cbDesign/slider/Slider'
+
+// import Calendar from 'rc-calendar';
+// import 'rc-calendar/assets/index.css';
 
 const Option = Select.Option
 const Step = Steps.Step
@@ -47,7 +51,6 @@ class FormComponents extends React.Component {
     }
 
     render() {
-        console.log('currentStep:', this.state.currentStep)
         return (
             <div className="test11">
 
@@ -104,6 +107,8 @@ class FormComponents extends React.Component {
                     <Step title="运输中" description="卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货" />
                     <Step title="收货" description="等待买家收货" />
                 </Steps>
+
+                <Slider min={1} step={0.01} max={10} defaultValue={1} style={{ marginLeft: '20px' }} />
 
                 {/* <Grid className="cbd-grid" style={{ height: '200px', width: '100%' }} >
                     <Row>

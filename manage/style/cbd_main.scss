@@ -1,6 +1,6 @@
 // 组件样式总控制端，此处只处理控件的样式引用
 //全局样式，用于定制化主题
-$border-color: #40a9ff;
+$border-color: #1890ff;
 $input-height:32px;
 $input-font-size:16px;
 
@@ -21,3 +21,6 @@ $input-font-size:16px;
 
 /*----------------------------steps---------------------------------*/
 @import '../components/cbDesign/steps/style/Steps.scss';
+
+/*----------------------------slider---------------------------------*/
+@import '../components/cbDesign/slider/style/Slider.scss';

@@ -260,7 +260,6 @@ class Select extends React.Component {
                 popupClassName="cbd-select-dropdown"
                 popupPlacement="bottomLeft"
                 popupVisible={this.state.openFlag}
-
                 popupTransitionName="cbd-trigger-popup-slide"
                 builtinPlacements={
                     {
