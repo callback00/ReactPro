@@ -71,7 +71,7 @@ class TableReport extends React.Component {
         this.data.forEach(item => {
             item.td = []
             for (const key in item) {
-                if (key !== 'td' && this.leafColumns.find((tempKey) => { return tempKey === key })) {
+                if (key !== 'td' && lodash.find(this.leafColumns, (tempKey) => { return tempKey === key })) {
                     item.td.push({ key, value: item[key], rowSpan: 1, visible: true })
                 }
 

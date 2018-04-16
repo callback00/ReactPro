@@ -27,6 +27,9 @@ class Slider extends React.Component {
 
         this.onMouseMove = this.onMouseMove.bind(this)
         this.onMouseUp = this.onMouseUp.bind(this)
+
+        this.onTouchMove = this.onTouchMove.bind(this)
+        this.onTouchEnd = this.onTouchEnd.bind(this)
     }
 
     componentDidMount() {
@@ -49,9 +52,36 @@ class Slider extends React.Component {
 
     addDocumentMouseEvents() {
         document.addEventListener("mousemove", this.onMouseMove, false);
-        document.addEventListener("mouseup", this.onMouseUp);
+        document.addEventListener("mouseup", this.onMouseUp, false);
     }
 
+    addDocumentTouchEvents() {
+        document.addEventListener("touchmove", this.onTouchMove, false);
+        document.addEventListener("touchend", this.onTouchEnd, false);
+    }
+
+    onTouchStart(e) {
+        this.dragFlag = true
+        this.starX = e.touches[0].pageX
+
+        e.preventDefault() //取消事件的默认动作，否则有时候拖动时会出现黑色的禁止圈
+
+        this.addDocumentTouchEvents()
+    }
+
+    onTouchMove(e) {
+        e.stopPropagation()
+        if (this.dragFlag) {
+            const x = e.touches[0].pageX //鼠标横坐标var x
+            this.calculateMove(x)
+        }
+    }
+
+    onTouchEnd(e) {
+        this.dragFlag = false
+        document.removeEventListener("touchmove", this.onTouchMove, false);
+        document.removeEventListener("touchend", this.onTouchEnd, false);
+    }
 
     onMouseDown(e) {
         this.dragFlag = true
@@ -71,44 +101,13 @@ class Slider extends React.Component {
         }
     }
 
-    // 计算移动位置
-    calculateMove_old(x) {
-        if (this.starX === x) {
-            return
-        }
-
-        const viewOffsetleft = this.getPosition(this.railEl).left //计算横条距离浏览器的left
-
-        let moveLeft = x - viewOffsetleft //小方块相对于父元素（长线条）的left值
-
-        if (moveLeft >= this.railEl.offsetWidth) {
-            moveLeft = this.railEl.offsetWidth
-        }
-
-        if (moveLeft < 0) {
-            moveLeft = 0
-        }
-
-        const pWidth = this.railEl.offsetWidth / (this.max - this.min)
-
-        const left = Math.round((moveLeft / pWidth).toFixed(1)) / (this.max - this.min) * 100
-
-        if (this.pointEl.style.left === left + "%") {
-            return
-        }
-        //设置拖动后小方块的left值
-        this.pointEl.style.left = left + "%"
-        this.trackEl.style.width = left + "%"
-
-        this.value = Math.round((moveLeft / pWidth).toFixed(1)) + this.min
-
-        if (this.props.onChange) {
-            this.props.onChange(this.value)
-        }
-
-        // console.log('显示数值', Math.round((moveLeft / pWidth).toFixed(1)) + this.min)
+    onMouseUp(e) {
+        this.dragFlag = false
+        document.removeEventListener("mousemove", this.onMouseMove, false)
+        document.removeEventListener("mouseup", this.onMouseUp, false)
     }
 
+    // 计算移动位置
     calculateMove(x) {
         if (this.starX === x) {
             return
@@ -184,12 +183,6 @@ class Slider extends React.Component {
         };
     }
 
-    onMouseUp(e) {
-        this.dragFlag = false
-        document.removeEventListener("mousemove", this.onMouseMove, false)
-        document.removeEventListener("mouseup", this.onMouseUp, false)
-    }
-
     stepClick(e) {
         e.preventDefault()
         if (e.target.className === this.pointEl.className) {
@@ -231,7 +224,7 @@ class Slider extends React.Component {
 
                     <div className={`cbd-slider-track`} ref={(el) => { this.trackEl = el }} />
 
-                    <div className={`cbd-slider-point`} ref={(el) => { this.pointEl = el }} onMouseDown={this.onMouseDown.bind(this)} />
+                    <div className={`cbd-slider-point`} ref={(el) => { this.pointEl = el }} onTouchStart={this.onTouchStart.bind(this)} onMouseDown={this.onMouseDown.bind(this)} />
                 </div>
             </div>
         )

@@ -108,8 +108,8 @@ class FormComponents extends React.Component {
                     <Step title="收货" description="等待买家收货" />
                 </Steps>
 
-                <Slider min={1} step={0.01} max={10} defaultValue={1} style={{ marginLeft: '20px' }} />
-
+                <Slider min={1} step={1} max={100} defaultValue={1} onChange={(value) => { console.log('第一个值', value) }} style={{ marginLeft: '20px', marginTop: '30px' }} />
+                <Slider min={1} step={1} max={10} defaultValue={1} onChange={(value) => { console.log('第二个值', value) }} style={{ marginLeft: '20px', marginTop: '30px' }} />
                 {/* <Grid className="cbd-grid" style={{ height: '200px', width: '100%' }} >
                     <Row>
                         <Col xs={12} sm={3} md={2} lg={1} >1</Col>

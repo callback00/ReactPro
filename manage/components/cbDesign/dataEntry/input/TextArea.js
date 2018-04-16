@@ -27,11 +27,13 @@ class textArea extends React.Component {
 
         const value = el.value
 
-        const temp = this.state.style
-        let style = {}
-        style = Object.assign(style, temp)
+        // const temp = this.state.style
+        // let style = {}
+        // style = Object.assign(style, temp)
 
-        style.color = value ? 'black' : 'rgba(0,0,0,0.65)'
+        // style.color = value ? 'black' : 'rgba(0,0,0,0.65)'
+
+        const style = this.props.style
 
         this.setState({
             value,

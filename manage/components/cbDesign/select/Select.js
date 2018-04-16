@@ -46,7 +46,6 @@ class Select extends React.Component {
     onClick(e) {
         let flag = this.state.openFlag
         flag = !flag
-
         if (e.target.className === "icon-clear") {
             let value = { key: '', value: '' }
             this.setState({
@@ -87,6 +86,7 @@ class Select extends React.Component {
 
     // 失去焦点事件
     onBlur(e) {
+        console.log('触发事件')
         if (this.mouseLeaveDropdown && this.mouseLeaveContent) {
             this.setState({
                 openFlag: false
@@ -252,8 +252,8 @@ class Select extends React.Component {
 
     render() {
 
-        const style = Object.assign({ color: this.state.value ? 'black' : 'rgba(0,0,0,.65)' }, this.props.style)
-
+        // const style = Object.assign({ color: this.state.value ? 'black' : 'rgba(0,0,0,.65)' }, this.props.style)
+        const style = this.props.style
         return (
 
             <Trigger
@@ -270,7 +270,7 @@ class Select extends React.Component {
                 }
                 popup={this.renderOpt.bind(this)}
             >
-                {
+                {/* {
                     this.props.showSearch ?
                         <div className="cbd-select" style={this.props.style} >
                             <div onMouseLeave={this.onMouseLeaveContent.bind(this)} onMouseEnter={this.onMouseEnterContent.bind(this)} onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select-el`} >
@@ -289,7 +289,7 @@ class Select extends React.Component {
 
                         :
                         <div className="cbd-select" style={this.props.style} >
-                            <div onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select-el`} >
+                            <div onMouseLeave={this.onMouseLeaveContent.bind(this)} onMouseEnter={this.onMouseEnterContent.bind(this)} onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select-el`} >
                                 <div ref={(el) => { this.contentDiv = el }} className={`cbd-select-content${this.state.openFlag ? ' activity' : ''}`} tabIndex={0}>
 
                                     <div className="cbd-select-content-textvalue">{this.state.value.value ? this.state.value.value : <span style={{ color: '#bfbfbf' }} >{this.props.placeholder}</span>}</div>
@@ -298,6 +298,22 @@ class Select extends React.Component {
                                 <span className="icon-clear" style={{ display: this.state.value.value ? 'inline' : 'none' }} >x</span>
                             </div>
                         </div>
+                } */}
+
+                {
+                    <div className="cbd-select" style={this.props.style} >
+                        <div onMouseLeave={this.onMouseLeaveContent.bind(this)} onMouseEnter={this.onMouseEnterContent.bind(this)} onClick={this.onClick.bind(this)} onBlur={this.onBlur.bind(this)} className={`cbd-select-el`} >
+                            <div ref={(el) => { this.contentDiv = el }} className={`cbd-select-content${this.state.openFlag ? ' activity' : ''}`} tabIndex={0}>
+
+                                <div ref={(el) => { this.textValueEl = el }} className={`cbd-select-content-textvalue`} style={{ opacity: this.state.openFlag ? 0.4 : 1 }} >{this.state.value.value ? this.state.value.value : <span style={{ color: '#bfbfbf' }} >{this.props.placeholder}</span>}</div>
+                                {
+                                    this.props.showSearch ? <input ref={(el) => { this.inputEl = el }} className={`${this.state.openFlag ? ' show' : ' hidden'}`} onChange={this.inputOnChange.bind(this)} onCompositionEnd={this.onCompositionEnd.bind(this)} type="text" /> : ''
+                                }
+                            </div>
+                            <span className="icon" style={{ transform: this.state.openFlag ? 'rotate(-135deg)' : 'rotate(45deg)' }} />
+                            <span className="icon-clear" style={{ display: this.state.value.value ? 'inline' : 'none' }} >x</span>
+                        </div>
+                    </div>
                 }
 
             </Trigger>

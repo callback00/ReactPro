@@ -43,7 +43,8 @@ class InputSearch extends React.Component {
 
     render() {
 
-        const style = Object.assign({ color: this.state.value ? 'black' : 'rgba(0,0,0,.65)' }, this.props.style)
+        // const style = Object.assign({ color: this.state.value ? 'black' : 'rgba(0,0,0,.65)' }, this.props.style)
+        const style = this.props.style
 
         return (
             <span className="cbd-input-search-sapn" style={style} >

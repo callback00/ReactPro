@@ -223,7 +223,9 @@ class InputGroup extends React.Component {
 
     render() {
 
-        const style = Object.assign({ color: this.state.value ? 'black' : 'rgba(0,0,0,.65)' }, this.props.style)
+        // const style = Object.assign({ color: this.state.value ? 'black' : 'rgba(0,0,0,.65)' }, this.props.style)
+
+        const style = this.props.style
 
         return (
             <span onBlur={this.onRightBlur.bind(this)} className="cbd-input-inputgroup" style={style} >
