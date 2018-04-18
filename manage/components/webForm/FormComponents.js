@@ -10,12 +10,19 @@ import Select from '../cbDesign/select/Select'
 import Checkbox from '../cbDesign/checkbox/Checkbox'
 import Steps from '../cbDesign/steps/Steps'
 import Slider from '../cbDesign/slider/Slider'
+import Rate from '../cbDesign/rate/Rate'
+import Switch from '../cbDesign/switch/Switch'
+import Radio from '../cbDesign/radio/Radio'
+import Circle from '../cbDesign/progress/Circle'
 
 // import Calendar from 'rc-calendar';
 // import 'rc-calendar/assets/index.css';
 
 const Option = Select.Option
 const Step = Steps.Step
+
+const RadioGroup = Radio.RadioGroup
+const RadioButton = Radio.RadioButton
 
 import TableReportData from '../../public/data/TableReportData.json'
 import TableReportColumn from '../../public/data/TableReportColumn.json'
@@ -110,6 +117,43 @@ class FormComponents extends React.Component {
 
                 <Slider min={1} step={1} max={100} defaultValue={1} onChange={(value) => { console.log('第一个值', value) }} style={{ marginLeft: '20px', marginTop: '30px' }} />
                 <Slider min={1} step={1} max={10} defaultValue={1} onChange={(value) => { console.log('第二个值', value) }} style={{ marginLeft: '20px', marginTop: '30px' }} />
+
+                <Rate character='☻' disabled allowHalf={true} defaultValue={1} />
+                <Rate character='☻' allowHalf={true} style={{ fontSize: '20px' }} />
+                <Rate character='☻' allowHalf={true} />
+                <Rate character='★' count={6} />
+
+                <div style={{ marginTop: '15px', marginBottom: '15px' }} >
+                    <Switch defaultChecked={true} checked={false} checkedText={'开'} unCheckedText={'关'} />
+                </div>
+
+                <div style={{ marginTop: '15px', marginBottom: '15px' }}>
+                    <Switch defaultChecked={true} checked={false} checkedText={'超长文字开'} unCheckedText={'超长文字关'} />
+                </div>
+
+                <div style={{ marginTop: '15px', marginBottom: '15px' }}>
+                    <Radio>测试</Radio>
+                </div>
+
+                <div style={{ marginTop: '15px', marginBottom: '15px' }}>
+                    <RadioGroup value={this.state.flag ? '3' : '1'} onChange={(value) => { console.log('RadioGroup返回值', value) }} >
+                        <Radio value={'1'} >A</Radio>
+                        <Radio value={'2'} >B</Radio>
+                        <Radio value={'3'} >C</Radio>
+                    </RadioGroup>
+                </div>
+
+                <div style={{ marginTop: '15px', marginBottom: '15px' }}>
+                    <RadioGroup value={this.state.flag ? '3' : '1'} onChange={(value) => { console.log('RadioGroup返回值', value) }} >
+                        <RadioButton value={'1'} >南宁市</RadioButton>
+                        <RadioButton value={'2'} >柳州市</RadioButton>
+                        <RadioButton value={'3'} >梧州市</RadioButton>
+                        <RadioButton value={'4'} >防城港</RadioButton>
+                    </RadioGroup>
+                </div>
+
+                <Circle />
+
                 {/* <Grid className="cbd-grid" style={{ height: '200px', width: '100%' }} >
                     <Row>
                         <Col xs={12} sm={3} md={2} lg={1} >1</Col>

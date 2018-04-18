@@ -7,7 +7,7 @@
         cursor: pointer; // 这个设置会导致移动端点击是有蓝色的底色
         list-style: none;
         box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent;
+        -webkit-tap-highlight-color: transparent; //去掉cursor: pointer导致的点击事件出现底色问题
         .cbd-slider-rail {
             width: 100%;
             height: 3px;

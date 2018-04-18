@@ -3,16 +3,15 @@
 $border-color: #1890ff;
 $input-height:32px;
 $input-font-size:16px;
-
 @import '../components/cbDesign/dataEntry/input/style/Input.scss';
 @import '../components/cbDesign/dataEntry/input/style/InputGroup.scss';
 @import '../components/cbDesign/dataEntry/input/style/InputSearch.scss';
 @import '../components/cbDesign/dataEntry/input/style/TextArea.scss';
+
 /*----------------------------table---------------------------------*/
-
 @import '../components/cbDesign/tables/style/TableReport.scss';
-/*----------------------------select---------------------------------*/
 
+/*----------------------------select---------------------------------*/
 @import '../components/cbDesign/select/style/Select.scss';
 @import '../components/cbDesign/select/style/Option.scss';
 
@@ -24,3 +23,15 @@ $input-font-size:16px;
 
 /*----------------------------slider---------------------------------*/
 @import '../components/cbDesign/slider/style/Slider.scss';
+
+/*----------------------------rate---------------------------------*/
+@import '../components/cbDesign/rate/style/Rate.scss';
+
+/*----------------------------switch---------------------------------*/
+@import '../components/cbDesign/switch/style/Switch.scss';
+
+/*----------------------------radio---------------------------------*/
+@import '../components/cbDesign/radio/style/Radio.scss';
+
+/*----------------------------progress---------------------------------*/
+@import '../components/cbDesign/progress/style/Progress.scss';

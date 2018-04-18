@@ -18,9 +18,6 @@ class SildeTwo extends React.Component {
         }
     }
 
-    componentDidMount() {
-    }
-
     bookClikc(book) {
         if (book === 'css') {
             let flag = this.state.bookcssOpne;

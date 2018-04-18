@@ -1,0 +1,16 @@
+$radius: 90;
+$percent: .3;
+$circumference: 3.1415926* (2 * $radius);
+svg {
+    transform: rotate(-90deg);
+}
+
+.backdrop {
+    stroke-dasharray: $circumference;
+    stroke-dashoffset: $circumference*$percent; // transition: stroke-dashoffset 1200ms cubic-bezier(.99, .01, .62, .94);
+}
+
+.backdrop {
+    // stroke-dasharray: $circumference;
+    // stroke-dashoffset: $circumference;
+}

@@ -161,8 +161,6 @@ class Slider extends React.Component {
         if (this.props.onChange) {
             this.props.onChange(this.value)
         }
-
-        console.log('显示数值', this.value)
     }
 
     //获取元素的绝对位置

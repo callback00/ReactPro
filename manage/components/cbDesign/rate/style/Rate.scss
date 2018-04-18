@@ -1,0 +1,33 @@
+.cbd-rate {
+    list-style: none;
+    display: block; 
+    color: #C4C4C4;
+    outline: none;
+    font-size: 40px;
+    margin: 0;
+    padding: 0;
+    .cbd-rate-item {
+        display: inline-block;
+        position: relative;
+        margin-right: 10px;
+        user-select:none;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        &.full {
+            color: #fadb14;
+        }
+        &.half {
+            .first {
+                color: #fadb14;
+            }
+        }
+        .first {
+            width: 50%;
+            overflow: hidden;
+            position: absolute;
+        }
+        .second {
+            width: 100%;
+        }
+    }
+}
