@@ -58,22 +58,20 @@
         }
         &.finish {
             .cbd-steps-item-icon {
-                // border-color: #1890ff;
                 border-color: $border-color;
                 .cbd-steps-icon {
                     position: relative;
+                    display: inline-block;
                     &:after {
+                        content: " ";
                         transform: rotate(45deg);
-                        position: absolute;
-                        left: 12.5px;
-                        top: 7px;
                         display: table;
                         width: 6.7px;
                         height: 13px;
                         border: 1px solid $border-color;
                         border-top: 0;
                         border-left: 0;
-                        content: " ";
+                        margin-bottom: 2px;
                     }
                 }
             }
@@ -130,8 +128,10 @@
         }
     }
     &.vertical {
-        flex-direction: column;
+        // flex-direction: column; // ie 11 不支持该属性，不能用这种布局
+        display: block;
         .cbd-steps-item {
+            display: block;
             margin-bottom: 5px;
             .cbd-steps-item-content-title {
                 &:after {

@@ -1,16 +1,93 @@
-$radius: 90;
-$percent: .3;
-$circumference: 3.1415926* (2 * $radius);
-svg {
-    transform: rotate(-90deg);
+/*以下代码使用div实现的*/
+
+.cbd-progress-circle {
+    height: 240px;
+    width: 240px;
+    position: relative;
+    display: inline-block;
+    svg {
+        // iOS手机上起始坐标异常问题，可以通过添加如下CSS修正：
+        transform: rotate(-0.05deg);
+    }
+    /*以下代码为使用div画圈的css*/
+    .back-circle {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        box-sizing: border-box;
+        border: 6px solid $border-color;
+        border-radius: 1000px;
+    }
+    .left-half-circle {
+        height: 100%;
+        width: 50%;
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        &:after {
+            content: '';
+            height: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            border: 6px solid #C4C4C4;
+            position: absolute;
+            display: inline-block;
+            border-radius: 1000px 0 0 1000px;
+            border-right: 0;
+            transform-origin: right center;
+            animation: rotateLeftCircle 4s infinite linear;
+        }
+    }
+    .right-half-circle {
+        height: 100%;
+        width: 50%;
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        &:after {
+            content: '';
+            height: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            border: 6px solid #C4C4C4;
+            position: absolute;
+            display: inline-block;
+            border-radius: 0 1000px 1000px 0;
+            border-left: 0;
+            animation: rotateRightCircle 4s infinite linear;
+            transform-origin: left center;
+        }
+    }
 }
 
-.backdrop {
-    stroke-dasharray: $circumference;
-    stroke-dashoffset: $circumference*$percent; // transition: stroke-dashoffset 1200ms cubic-bezier(.99, .01, .62, .94);
+@keyframes rotateLeftCircle {
+    25% {
+        transform: rotateZ(0deg);
+    }
+    50%,
+    75% {
+        transform: rotateZ(180deg);
+    }
+    100% {
+        transform: rotateZ(360deg);
+    }
 }
 
-.backdrop {
-    // stroke-dasharray: $circumference;
-    // stroke-dashoffset: $circumference;
+@keyframes rotateRightCircle {
+    25% {
+        // 0%-25%旋转到180
+        transform: rotateZ(180deg);
+    }
+    50% {
+        // 25%-50%保持静止
+        transform: rotateZ(180deg);
+    }
+    75% {
+        // 50%-75%旋转到360
+        transform: rotateZ(360deg);
+    }
+    100% {
+        // 保持静止
+        transform: rotateZ(360deg);
+    }
 }

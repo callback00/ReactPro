@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import Scss from './style/SildeFour.scss'
 
 class SilderFour extends React.Component {

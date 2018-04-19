@@ -45,7 +45,7 @@
 // export default BasicLayout
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import Trigger from 'rc-trigger';
 // import 'rc-trigger/assets/index.css';
 import assign from 'object-assign';

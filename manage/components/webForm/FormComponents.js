@@ -34,13 +34,29 @@ class FormComponents extends React.Component {
         super(props)
         this.state = {
             flag: true,
-            currentStep: 0
+            currentStep: 0,
+            percent: 0
         }
     }
 
     textChange(value) {
         console.log(value)
     }
+
+    progressAdd() {
+        let percent = this.state.percent === 100 ? 100 : this.state.percent + 10
+        this.setState({
+            percent
+        })
+    }
+
+    progressSub() {
+        let percent = this.state.percent === 0 ? 0 : this.state.percent - 10
+        this.setState({
+            percent
+        })
+    }
+
 
     onClick() {
         let flag = this.state.flag
@@ -124,11 +140,11 @@ class FormComponents extends React.Component {
                 <Rate character='★' count={6} />
 
                 <div style={{ marginTop: '15px', marginBottom: '15px' }} >
-                    <Switch defaultChecked={true} checked={false} checkedText={'开'} unCheckedText={'关'} />
+                    <Switch onChange={(value) => { console.log('Switch:', value) }} checkedText={'开'} unCheckedText={'关'} />
                 </div>
 
                 <div style={{ marginTop: '15px', marginBottom: '15px' }}>
-                    <Switch defaultChecked={true} checked={false} checkedText={'超长文字开'} unCheckedText={'超长文字关'} />
+                    <Switch onChange={(value) => { console.log('Switch:', value) }} checkedText={'超长文字开'} unCheckedText={'超长文字关'} />
                 </div>
 
                 <div style={{ marginTop: '15px', marginBottom: '15px' }}>
@@ -152,8 +168,13 @@ class FormComponents extends React.Component {
                     </RadioGroup>
                 </div>
 
-                <Circle />
+                <div>
+                    <button onClick={(this.progressAdd.bind(this))} style={{ height: '25px', width: '40px', marginRight: '10px' }} >+</button>
+                    <button onClick={this.progressSub.bind(this)} style={{ height: '25px', width: '40px' }}>-</button>
+                    <Circle percent={this.state.percent} />
 
+                    <Circle borderWidth={20} style={{ height: '300px', width: '300px' }} percent={this.state.percent} />
+                </div>
                 {/* <Grid className="cbd-grid" style={{ height: '200px', width: '100%' }} >
                     <Row>
                         <Col xs={12} sm={3} md={2} lg={1} >1</Col>

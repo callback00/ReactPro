@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
 import lodash from 'lodash'
 import Trigger from 'rc-trigger';
 import 'rc-trigger/assets/index.css';

@@ -1,10 +1,5 @@
 import React from 'react'
 
-import addEventListener from '../../../common/util/dom/addEventListener';
-
-// import SliderRC, { Range } from 'rc-slider';
-// import 'rc-slider/assets/index.css';
-
 class Slider extends React.Component {
     constructor(props) {
         super(props)
