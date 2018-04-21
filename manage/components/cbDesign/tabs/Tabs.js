@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-class RadioGroup extends React.Component {
+function noop() {
+}
+
+class Tabs extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: this.props.defaultValue
+            value: this.props.value
         }
 
         this.onChange = this.onChange.bind(this)
@@ -56,24 +59,24 @@ class RadioGroup extends React.Component {
 
     render() {
         return (
-            <div className="cbd-radio-group" >
-                {
-                    this.renderRadio()
-                }
+            <div className="cbd-tabs" >
+                <div className="cbd-tabs-bar" >
+                </div>
             </div>
         )
     }
 }
 
-RadioGroup.propTypes = {
-    style: PropTypes.object,
+Tabs.propTypes = {
+    value: PropTypes.any,
     onChange: PropTypes.func,
 
 }
 
-RadioGroup.defaultProps = {
-    style: {},
-    onChange() { },
+Tabs.defaultProps = {
+    checked: false,
+    value: null,
+    onChange: noop,
 }
 
-export default RadioGroup
+export default Tabs

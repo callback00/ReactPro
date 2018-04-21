@@ -10,22 +10,20 @@ class RadioButton extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: this.props.value,
             checked: this.props.checked
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if ('value' in nextProps) {
+        if ('checked' in nextProps) {
             this.setState({
-                value: nextProps.value,
                 checked: nextProps.checked,
             });
         }
     }
 
     onChange(e) {
-        const value = this.state.value
+        const value = this.props.value
 
         this.setState({
             checked: e.target.checked
@@ -50,13 +48,11 @@ class RadioButton extends React.Component {
 
 RadioButton.propTypes = {
     checked: PropTypes.bool,
-    value: PropTypes.any,
 
 }
 
 RadioButton.defaultProps = {
     checked: false,
-    value: '',
     onChange: noop,
 }
 

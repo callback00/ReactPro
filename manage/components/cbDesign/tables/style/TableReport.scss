@@ -6,13 +6,13 @@
     overflow: auto;
     table tr th,
     table tr td {
-        border-right: 1px solid #e8e8e8;
-        border-bottom: 1px solid #e8e8e8;
+        border-right: 1px solid #d7dde4;
+        border-bottom: 1px solid #d7dde4;
         box-sizing: border-box;
         height: 31px;
     }
     table thead {
-        background: #fafafa;
+        background: #f5f7f9;
     }
     table thead tr {
         &:first-child {
@@ -30,8 +30,8 @@
         width: 100%;
         min-height: 25px;
         line-height: 25px;
-        border-top: 1px solid #e8e8e8;
-        border-left: 1px solid #e8e8e8;
+        border-top: 1px solid #d7dde4;
+        border-left: 1px solid #d7dde4;
         text-align: center;
         border-collapse: separate; // 如果直接设置合并边框就无法设置圆角
         border-spacing: 0;

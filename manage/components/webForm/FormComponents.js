@@ -1,6 +1,8 @@
 import React from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid';
 
+import './style/FormComponents.scss'
+
 import Input from '../cbDesign/dataEntry/input/Input'
 import InputSearch from '../cbDesign/dataEntry/input/InputSearch'
 import TextArea from '../cbDesign/dataEntry/input/TextArea'
@@ -13,7 +15,7 @@ import Slider from '../cbDesign/slider/Slider'
 import Rate from '../cbDesign/rate/Rate'
 import Switch from '../cbDesign/switch/Switch'
 import Radio from '../cbDesign/radio/Radio'
-import Circle from '../cbDesign/progress/Circle'
+import CircleProgress from '../cbDesign/progress/CircleProgress'
 
 // import Calendar from 'rc-calendar';
 // import 'rc-calendar/assets/index.css';
@@ -76,104 +78,122 @@ class FormComponents extends React.Component {
     render() {
         return (
             <div className="test11">
+                <div className="example">
+                    <Input style={{ fontSize: '16px' }} defaultValue="我是谁" onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
 
-                <button onClick={this.onClick.bind(this)} type="button">Click Me!</button>
-                <Input style={{ fontSize: '16px' }} onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
+                    <TextArea style={{ fontSize: '16px', marginTop: '10px' }} rows={6} onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
 
-                <TextArea style={{ fontSize: '16px', marginTop: '10px' }} rows={6} onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
-
-                <InputSearch style={{ fontSize: '18px', marginTop: '10px' }} onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
-                <InputGroup data={InputGroupData} style={{ fontSize: '16px', marginTop: '10px' }} onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
-                <Select showSearch placeholder="请输入代码" style={{ marginTop: this.state.flag ? '10px' : '20px' }} >
-                    <Option disabled value='test' >代理1</Option>
-                    <Option value='test' >代理2</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理4</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理2</Option>
-                </Select>
-
-                <Select onChange={(e) => { console.log('回调数据', e) }} placeholder="请输入代码" style={{ marginTop: this.state.flag ? '10px' : '20px' }} >
-                    <Option disabled value='test' >代理1</Option>
-                    <Option value='test' >代理2</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理4</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理1</Option>
-                    <Option value='test' >代理2</Option>
-                </Select>
-
-                <TableReport className="tes" data={TableReportData} columns={TableReportColumn} style={{ marginTop: '10px' }} />
-
-                <Checkbox defaultChecked onChange={(e) => { console.log(e) }} value="123456">代理</Checkbox>
-                <Checkbox disabled defaultChecked onChange={(e) => { console.log(e) }} value="123456">苹果</Checkbox>
-
-                <Steps current={this.state.currentStep} direction="vertical" size="small" style={{ marginTop: '30px' }} >
-                    <Step title="接单" description="等待商家接单中" />
-                    <Step title="等待发货" description="等待卖家发货" />
-                    <Step title="运输中" description="卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货" />
-                    <Step title="收货" description="等待买家收货" />
-                </Steps>
-
-                <Steps current={this.state.currentStep} style={{ marginTop: '30px' }} >
-                    <Step title="接单" description="等待商家接单中" />
-                    <Step title="等待发货" description="等待卖家发货" />
-                    <Step title="运输中" description="卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货" />
-                    <Step title="收货" description="等待买家收货" />
-                </Steps>
-
-                <Slider min={1} step={1} max={100} defaultValue={1} onChange={(value) => { console.log('第一个值', value) }} style={{ marginLeft: '20px', marginTop: '30px' }} />
-                <Slider min={1} step={1} max={10} defaultValue={1} onChange={(value) => { console.log('第二个值', value) }} style={{ marginLeft: '20px', marginTop: '30px' }} />
-
-                <Rate character='☻' disabled allowHalf={true} defaultValue={1} />
-                <Rate character='☻' allowHalf={true} style={{ fontSize: '20px' }} />
-                <Rate character='☻' allowHalf={true} />
-                <Rate character='★' count={6} />
-
-                <div style={{ marginTop: '15px', marginBottom: '15px' }} >
-                    <Switch onChange={(value) => { console.log('Switch:', value) }} checkedText={'开'} unCheckedText={'关'} />
+                    <InputSearch style={{ fontSize: '18px', marginTop: '10px' }} onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
+                    <InputGroup data={InputGroupData} style={{ fontSize: '16px', marginTop: '10px' }} onChange={this.textChange.bind(this)} placeholder="请输入姓名" />
                 </div>
 
-                <div style={{ marginTop: '15px', marginBottom: '15px' }}>
-                    <Switch onChange={(value) => { console.log('Switch:', value) }} checkedText={'超长文字开'} unCheckedText={'超长文字关'} />
+                <div className="example">
+                    <Select showSearch placeholder="请输入代码">
+                        <Option disabled value='test' >代理1</Option>
+                        <Option value='test' >代理2</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理4</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理2</Option>
+                    </Select>
+
+                    <Select onChange={(e) => { console.log('回调数据', e) }} placeholder="请输入代码" >
+                        <Option disabled value='test' >代理1</Option>
+                        <Option value='test' >代理2</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理4</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理1</Option>
+                        <Option value='test' >代理2</Option>
+                    </Select>
+
                 </div>
 
-                <div style={{ marginTop: '15px', marginBottom: '15px' }}>
-                    <Radio>测试</Radio>
+                <div className="example">
+                    <TableReport className="tes" data={TableReportData} columns={TableReportColumn} style={{ marginTop: '10px' }} />
                 </div>
 
-                <div style={{ marginTop: '15px', marginBottom: '15px' }}>
-                    <RadioGroup value={this.state.flag ? '3' : '1'} onChange={(value) => { console.log('RadioGroup返回值', value) }} >
-                        <Radio value={'1'} >A</Radio>
-                        <Radio value={'2'} >B</Radio>
-                        <Radio value={'3'} >C</Radio>
-                    </RadioGroup>
+                <div className="example">
+                    <Checkbox defaultChecked onChange={(e) => { console.log(e) }} value="123456">代理</Checkbox>
+                    <Checkbox disabled defaultChecked onChange={(e) => { console.log(e) }} value="123456">苹果</Checkbox>
                 </div>
 
-                <div style={{ marginTop: '15px', marginBottom: '15px' }}>
-                    <RadioGroup value={this.state.flag ? '3' : '1'} onChange={(value) => { console.log('RadioGroup返回值', value) }} >
-                        <RadioButton value={'1'} >南宁市</RadioButton>
-                        <RadioButton value={'2'} >柳州市</RadioButton>
-                        <RadioButton value={'3'} >梧州市</RadioButton>
-                        <RadioButton value={'4'} >防城港</RadioButton>
-                    </RadioGroup>
+                <div className="example">
+                    <button style={{ marginBottom: '20px' }} onClick={this.onClick.bind(this)} type="button">改变两个步骤</button>
+                    <Steps current={this.state.currentStep} direction="vertical" size="small" style={{ marginBottom: '30px' }} >
+                        <Step title="接单" description="等待商家接单中" />
+                        <Step title="等待发货" description="等待卖家发货" />
+                        <Step title="运输中" description="卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货" />
+                        <Step title="收货" description="等待买家收货" />
+                    </Steps>
+
+                    <Steps current={this.state.currentStep} style={{ marginTop: '30px' }} >
+                        <Step title="接单" description="等待商家接单中" />
+                        <Step title="等待发货" description="等待卖家发货" />
+                        <Step title="运输中" description="卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货" />
+                        <Step title="收货" description="等待买家收货" />
+                    </Steps>
                 </div>
 
-                <div>
+                <div className="example">
+                    <Slider min={1} step={1} max={100} defaultValue={10} onChange={(value) => { console.log('第一个值', value) }} style={{ marginLeft: '20px', marginTop: '30px' }} />
+                    <Slider min={1} step={1} max={10} defaultValue={5} onChange={(value) => { console.log('第二个值', value) }} style={{ marginLeft: '20px', marginTop: '30px' }} />
+                </div>
+                <div className="example">
+                    <Rate character='☻' disabled allowHalf={true} defaultValue={1} />
+                    <Rate character='☻' allowHalf={true} style={{ fontSize: '20px' }} />
+                    <Rate character='☻' allowHalf={true} />
+                    <Rate character='★' count={6} />
+                </div>
+
+                <div className="example">
+                    <div style={{ marginTop: '15px', marginBottom: '15px' }} >
+                        <Switch onChange={(value) => { console.log('Switch:', value) }} checkedText={'开'} unCheckedText={'关'} />
+                    </div>
+
+                    <div style={{ marginTop: '15px', marginBottom: '15px' }}>
+                        <Switch onChange={(value) => { console.log('Switch:', value) }} checkedText={'超长文字开'} unCheckedText={'超长文字关'} />
+                    </div>
+                </div>
+
+                <div className="example">
+                    <div style={{ marginTop: '15px', marginBottom: '15px' }}>
+                        <Radio>测试</Radio>
+                    </div>
+
+                    <div style={{ marginTop: '15px', marginBottom: '15px' }}>
+                        <RadioGroup onChange={(value) => { console.log('RadioGroup返回值', value) }} >
+                            <Radio value={'1'} >A</Radio>
+                            <Radio value={'2'} >B</Radio>
+                            <Radio value={'3'} >C</Radio>
+                        </RadioGroup>
+                    </div>
+
+                    <div style={{ marginTop: '15px', marginBottom: '15px' }}>
+                        <RadioGroup defaultValue='4' onChange={(value) => { console.log('RadioGroup返回值', value) }} >
+                            <RadioButton value={'1'} >南宁市</RadioButton>
+                            <RadioButton value={'2'} >柳州市</RadioButton>
+                            <RadioButton value={'3'} >梧州市</RadioButton>
+                            <RadioButton value={'4'} >防城港</RadioButton>
+                        </RadioGroup>
+                    </div>
+                </div>
+
+                <div className="example">
                     <button onClick={(this.progressAdd.bind(this))} style={{ height: '25px', width: '40px', marginRight: '10px' }} >+</button>
                     <button onClick={this.progressSub.bind(this)} style={{ height: '25px', width: '40px' }}>-</button>
-                    <Circle percent={this.state.percent} />
+                    <CircleProgress percent={this.state.percent} />
 
-                    <Circle borderWidth={20} style={{ height: '300px', width: '300px' }} percent={this.state.percent} />
+                    <CircleProgress borderWidth={50} style={{ fontSize: '30px' }} percent={this.state.percent} />
                 </div>
                 {/* <Grid className="cbd-grid" style={{ height: '200px', width: '100%' }} >
                     <Row>

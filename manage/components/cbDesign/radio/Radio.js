@@ -6,34 +6,29 @@ import ClassNames from 'classnames'
 import RadioGroup from './RadioGroup'
 import RadioButton from './RadioButton';
 
-function noop() {
-}
-
 class Radio extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: this.props.value,
             checked: this.props.checked
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if ('value' in nextProps) {
+        if ('checked' in nextProps) {
             this.setState({
-                value: nextProps.value,
                 checked: nextProps.checked,
             });
         }
     }
 
     onChange(e) {
-        const value = this.state.value
+        const value = this.props.value
 
         this.setState({
             checked: e.target.checked
         })
-        
+
         if (e.target.checked) {
             this.props.onChange(value)
         }
@@ -58,14 +53,12 @@ class Radio extends React.Component {
 
 Radio.propTypes = {
     checked: PropTypes.bool,
-    value: PropTypes.any,
 
 }
 
 Radio.defaultProps = {
     checked: false,
-    value: '',
-    onChange: noop,
+    onChange() { },
 }
 
 Radio.RadioGroup = RadioGroup

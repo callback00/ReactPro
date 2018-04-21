@@ -8,6 +8,22 @@
     svg {
         // iOS手机上起始坐标异常问题，可以通过添加如下CSS修正：
         transform: rotate(-0.05deg);
+        .svg-show-circle {
+            transition: all 0.5s ease-in-out
+        }
+    }
+    .cbd-progress-circle-text {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0%;
+        display: table;
+        .percent {
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 45px;
+        }
     }
     /*以下代码为使用div画圈的css*/
     .back-circle {

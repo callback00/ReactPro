@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 function noop() {
 }
 
-class Circle extends React.Component {
+class CircleProgress extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -45,11 +45,14 @@ class Circle extends React.Component {
     renderBySvg() {
         let { percent, borderWidth, style } = this.props
 
+        const width = style.width ? style.width : '240px'
+        const height = style.height ? style.height : '240px'
+
         // 圆心位置
-        const circlePoint = parseFloat(style.width) / 2
+        const circlePoint = parseFloat(width) / 2
 
         // 传过来的半径需要减掉边框
-        const radius = parseFloat(style.width) / 2 - parseFloat(borderWidth) / 2
+        const radius = parseFloat(width) / 2 - parseFloat(borderWidth) / 2
 
         // 虚线
         const dasharray = Math.PI * (2 * radius);
@@ -58,16 +61,19 @@ class Circle extends React.Component {
         const dashoffset = Math.PI * (2 * radius) * (1 - percent / 100)
 
         //matrix 中用到
-        const v_move = parseFloat(style.width)
+        const v_move = parseFloat(width)
 
         return (
 
-            <div style={style} className="cbd-progress-circle">
+            <div style={{ height, width }} className="cbd-progress-circle">
                 <svg width="100%" height="100%" >
                     <circle className="svg-back-circle" cx={`${circlePoint}`} cy={`${circlePoint}`} r={`${radius}`} strokeWidth={`${borderWidth}`} stroke="#D1D3D7" fill="none"></circle>
                     <circle className="svg-show-circle" cx={`${circlePoint}`} cy={`${circlePoint}`} r={`${radius}`} strokeWidth={`${borderWidth}`} stroke="#00A5E0" fill="none" transform={`matrix(0,-1,1,0,0,${v_move})`} strokeDasharray={`${dasharray}`} strokeDashoffset={`${dashoffset}`} ></circle>
                 </svg>
 
+                <div className="cbd-progress-circle-text">
+                    <span className="percent" style={{ fontSize: style.fontSize }} > {this.props.percent}% </span>
+                </div>
             </div>
 
         )
@@ -78,7 +84,7 @@ class Circle extends React.Component {
         return (
             <div>
                 {
-                    this.renderByDiv()
+                    // this.renderByDiv()
                 }
                 {
                     this.renderBySvg()
@@ -88,20 +94,18 @@ class Circle extends React.Component {
     }
 }
 
-Circle.propTypes = {
+CircleProgress.propTypes = {
     percent: PropTypes.number,
     radius: PropTypes.number,
     borderWidth: PropTypes.number,
     onChange: PropTypes.func,
-    style: PropTypes.object
-
 }
 
-Circle.defaultProps = {
+CircleProgress.defaultProps = {
     percent: 10, // 半分比 ,值为0~100
     borderWidth: 6, // 圈边框显示宽度
-    style: { height: 240, width: 240 },
+    style: {},
     onChange: noop,
 }
 
-export default Circle
+export default CircleProgress
