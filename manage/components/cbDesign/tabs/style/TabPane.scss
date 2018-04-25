@@ -1,0 +1,11 @@
+.cbd-tabs-panes {
+    width: 100%;
+    white-space: nowrap;
+    transition: margin-left .3s ease-in-out;
+    .cbd-tabs-pane {
+        width: 100%;
+        display: inline-block;
+        white-space: normal;
+        vertical-align: top;
+    }
+}

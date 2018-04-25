@@ -1,66 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function noop() {
-}
+import TabBar from './TabBar'
+import TabPane from './TabPane'
 
 class Tabs extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: this.props.value
+            marginLeft: '0%'
         }
 
-        this.onChange = this.onChange.bind(this)
+        this.onTabClick = this.onTabClick.bind(this)
+
+        this.tabbar = [{ title: '已受理案件' }, { title: '案件' }, { title: '未领取案件' }, { title: '未领取案件' }, { title: '未领取案件' }, { title: '未领取案件' }, { title: '未领取案件' }]
     }
 
-    componentWillReceiveProps(nextProps) {
-        if ('value' in nextProps) {
-            this.setState({
-                value: nextProps.value,
-            });
-        }
-    }
-
-    onChange(value) {
+    onTabClick(index) {
         this.setState({
-            value
+            marginLeft: `${(0 - index) * 100}%`
         })
-
-        this.props.onChange(value)
-    }
-
-    renderRadio() {
-
-        const com = this
-        const data = React.Children.map(this.props.children, (child, index) => {
-
-            if (child.props.value === com.state.value) {
-                const temp = React.cloneElement(child, {
-                    checked: true,
-                    onChange: com.onChange
-                })
-
-                return temp
-            } else {
-                // 如果未设置默认选择自动选择第一个
-                const temp = React.cloneElement(child, {
-                    checked: index === 0 && !com.state.value ? true : false,
-                    onChange: com.onChange
-                })
-
-                return temp
-            }
-
-        })
-
-        return data
     }
 
     render() {
         return (
             <div className="cbd-tabs" >
-                <div className="cbd-tabs-bar" >
+                <TabBar onTabClick={this.onTabClick} data={this.tabbar} />
+
+                <div style={{ marginLeft: this.state.marginLeft }} className="cbd-tabs-panes" >
+                    {
+                        this.props.children
+                    }
                 </div>
             </div>
         )
@@ -76,7 +46,9 @@ Tabs.propTypes = {
 Tabs.defaultProps = {
     checked: false,
     value: null,
-    onChange: noop,
+    onChange() { },
 }
+
+Tabs.TabPane = TabPane
 
 export default Tabs

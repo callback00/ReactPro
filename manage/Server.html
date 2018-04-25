@@ -40,9 +40,21 @@
 <body>
     <div id="app-mount">
     </div>
+    <script type="text/javascript" src="/pcweb/css.js" async></script>
+
+    <!--[if IE]>
+    <link type="text/css" rel="styleSheet"  href="/css/TabBar.css" />
+    <![endif]-->
+
+    <script type="text/javascript">
+        if (window.navigator.userAgent.indexOf("MSIE") >= 1) {
+            document.write("<script src='https://as.alipayobjects.com/g/component/??es6-shim/0.35.1/es6-sham.min.js,es6-shim/0.35.1/es6-shim.min.js'/>")
+
+        }
+    </script>
     <script type="text/javascript" src="/js/echarts.min.js" async></script>
     <script type="text/javascript" src="/pcweb/app.js" async></script>
-    <script type="text/javascript" src="/pcweb/css.js" async></script>
+
 </body>
 
 </html>

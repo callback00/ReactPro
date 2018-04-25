@@ -5,7 +5,7 @@ class RadioGroup extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: this.props.defaultValue
+            value: props.defaultValue
         }
 
         this.onChange = this.onChange.bind(this)

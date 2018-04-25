@@ -8,7 +8,7 @@ class CircleProgress extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: this.props.value
+            value: props.value
         }
 
         this.onChange = this.onChange.bind(this)

@@ -17,10 +17,10 @@ class TableReport extends React.Component {
         // columns 的子叶数据,这里的数据与data的数据一一对应
         this.leafColumns = []
 
-        let tempColumn = lodash.cloneDeep(this.props.columns)
+        let tempColumn = lodash.cloneDeep(props.columns)
         this.columns = tempColumn
 
-        let tempData = lodash.cloneDeep(this.props.data)
+        let tempData = lodash.cloneDeep(props.data)
         this.data = tempData
     }
 

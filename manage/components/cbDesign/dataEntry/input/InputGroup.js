@@ -21,7 +21,7 @@ class InputGroup extends React.Component {
             valueText: ''
         }
 
-        let tempData = lodash.cloneDeep(this.props.data)
+        let tempData = lodash.cloneDeep(props.data)
         this.data = tempData
     }
 
@@ -45,7 +45,8 @@ class InputGroup extends React.Component {
             const key = el.dataset.key
 
             const parentNode = el.parentNode
-            parentNode.childNodes.forEach(element => {
+
+            lodash.forEach(parentNode.childNodes, (element) => {
                 if (el === element) {
                     element.className = element.className + ' select'
                 } else {

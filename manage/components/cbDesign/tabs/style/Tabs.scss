@@ -1,0 +1,9 @@
+@import './TabBar.scss';
+
+@import './TabPane.scss';
+
+.cbd-tabs{
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}

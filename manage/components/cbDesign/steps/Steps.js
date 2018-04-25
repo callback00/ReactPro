@@ -4,21 +4,10 @@ class Steps extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            stepEls: null
         }
     }
 
-    componentWillMount() {
-        this.disposeStepData()
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.props = nextProps
-        this.disposeStepData()
-    }
-
-    //数据处理
-    disposeStepData() {
+    renderStep() {
         const com = this
 
         const current = com.props.current ? com.props.current : 0
@@ -44,9 +33,7 @@ class Steps extends React.Component {
             }
         })
 
-        this.setState({
-            stepEls: data
-        })
+        return (data)
     }
 
     render() {
@@ -60,7 +47,7 @@ class Steps extends React.Component {
         return (
             <div className="cbd-steps-wrapper" style={style} >
                 <div className={`cbd-steps ${size ? size : ''} ${direction ? direction : ''}`} >
-                    {this.state.stepEls}
+                    {this.renderStep()}
                 </div>
             </div>
         );

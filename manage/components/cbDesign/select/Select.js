@@ -121,7 +121,7 @@ class Select extends React.Component {
 
                 this.selecting = true
                 const value = el.outerText
-                const key = el.dataset.key
+                const key = el.dataset ? el.dataset.key : el.getAttribute('data-key')
 
                 lodash.forEach(el.parentElement.children, (element) => {
                     if (el === element) {

@@ -16,6 +16,7 @@ import Rate from '../cbDesign/rate/Rate'
 import Switch from '../cbDesign/switch/Switch'
 import Radio from '../cbDesign/radio/Radio'
 import CircleProgress from '../cbDesign/progress/CircleProgress'
+import Tabs from '../cbDesign/tabs/Tabs'
 
 // import Calendar from 'rc-calendar';
 // import 'rc-calendar/assets/index.css';
@@ -26,17 +27,18 @@ const Step = Steps.Step
 const RadioGroup = Radio.RadioGroup
 const RadioButton = Radio.RadioButton
 
+const TabPane = Tabs.TabPane
+
 import TableReportData from '../../public/data/TableReportData.json'
 import TableReportColumn from '../../public/data/TableReportColumn.json'
 import InputGroupData from '../../public/data/InputGroupData.json'
 
-//
 class FormComponents extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             flag: true,
-            currentStep: 0,
+            currentStep: 1,
             percent: 0
         }
     }
@@ -195,6 +197,27 @@ class FormComponents extends React.Component {
 
                     <CircleProgress borderWidth={50} style={{ fontSize: '30px' }} percent={this.state.percent} />
                 </div>
+
+                <div className="example">
+                    <Tabs defaultActiveKey=''>
+                        <TabPane>
+                            <RadioGroup defaultValue='4' onChange={(value) => { console.log('RadioGroup返回值', value) }} >
+                                <RadioButton value={'1'} >南宁市</RadioButton>
+                                <RadioButton value={'2'} >柳州市</RadioButton>
+                                <RadioButton value={'3'} >梧州市</RadioButton>
+                                <RadioButton value={'4'} >防城港</RadioButton>
+                            </RadioGroup>
+                        </TabPane>
+                        <TabPane>
+                            <TableReport className="tes" data={TableReportData} columns={TableReportColumn} style={{ marginTop: '10px' }} />
+                        </TabPane>
+                        <TabPane>content3</TabPane>
+                    </Tabs>
+
+
+
+                </div>
+
                 {/* <Grid className="cbd-grid" style={{ height: '200px', width: '100%' }} >
                     <Row>
                         <Col xs={12} sm={3} md={2} lg={1} >1</Col>

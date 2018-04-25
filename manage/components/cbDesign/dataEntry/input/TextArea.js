@@ -1,16 +1,12 @@
 
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class textArea extends React.Component {
     constructor(props) {
         super(props)
-
-        let style = this.props.style
-        style.color = this.props.defaultValue ? 'black' : 'rgba(0,0,0,.65)'
-
         this.state = {
-            value: null,
-            style,
+            value: null
         }
     }
 
@@ -42,10 +38,21 @@ class textArea extends React.Component {
 
         return (
 
-            <textarea className='cbd-textarea' style={this.state.style} rows={this.props.rows} defaultValue={this.state.defaultValue} placeholder={this.props.placeholder} onChange={this.onChange.bind(this)} />
+            <textarea className='cbd-textarea' style={this.props.style} rows={this.props.rows} defaultValue={this.state.defaultValue} placeholder={this.props.placeholder} onChange={this.onChange.bind(this)} />
 
         )
     }
+}
+
+textArea.propTypes = {
+    style: PropTypes.object,
+    onChange: PropTypes.func,
+
+}
+
+textArea.defaultProps = {
+    style: {},
+    onChange() { },
 }
 
 export default textArea

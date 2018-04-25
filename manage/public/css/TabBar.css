@@ -1,0 +1,12 @@
+.cbd-tabs-tab.active:after {
+    content: '';
+    border: 1px solid #1890ff;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.cbd-tabs-ink-bar {
+    display: none
+}

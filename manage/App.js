@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import vConsole from 'vconsole'  // 手机端调试，生产环境注释掉
+// import vConsole from 'vconsole'  // 手机端调试，生产环境注释掉
 import { BrowserRouter as Router } from 'react-router-dom'
 
 import Routes from './routes/CustRoutes'

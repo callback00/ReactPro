@@ -15,10 +15,10 @@ class Slider extends React.Component {
         this.starX = 0;
         this.value = 0;
 
-        this.min = this.props.min || this.props.min === 0 ? this.props.min : 0  //this.props.min 为 0 时判断条件会直接判断为false
-        this.max = this.props.max || this.props.max === 0 ? this.props.max : 100
-        this.defaultValue = this.props.defaultValue || this.props.defaultValue === 0 ? this.props.defaultValue : this.min
-        this.step = this.props.step ? this.props.step : 1
+        this.min = props.min || props.min === 0 ? props.min : 0  //this.props.min 为 0 时判断条件会直接判断为false
+        this.max = props.max || props.max === 0 ? props.max : 100
+        this.defaultValue = props.defaultValue || props.defaultValue === 0 ? props.defaultValue : this.min
+        this.step = props.step ? props.step : 1
 
         this.onMouseMove = this.onMouseMove.bind(this)
         this.onMouseUp = this.onMouseUp.bind(this)
@@ -29,11 +29,6 @@ class Slider extends React.Component {
 
     componentDidMount() {
         this.InitComponentData()
-    }
-
-
-    componentWillReceiveProps(nextProps) {
-        this.props = nextProps
     }
 
     InitComponentData() {

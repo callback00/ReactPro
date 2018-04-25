@@ -11,7 +11,7 @@ class Rate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentIndex: this.props.defaultValue
+            currentIndex: props.defaultValue
         }
 
     }
