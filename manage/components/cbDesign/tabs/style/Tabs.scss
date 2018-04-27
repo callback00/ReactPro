@@ -1,9 +1,11 @@
 @import './TabBar.scss';
-
 @import './TabPane.scss';
-
-.cbd-tabs{
+.cbd-tabs {
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
+    &.cbd-tabs-top {}
+    &.cbd-tabs-left {}
+    &.cbd-tabs-right {}
+    &.cbd-tabs-bottom {}
 }

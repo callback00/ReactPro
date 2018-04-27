@@ -2,22 +2,65 @@
     border-bottom: 1px solid #e8e8e8;
     margin-bottom: 16px;
     position: relative;
-    .cbd-tabs-tab {
-        display: inline-block;
-        height: 100%;
-        margin-right: 32px;
-        padding: 12px 16px;
-        box-sizing: border-box;
+    outline: none;
+    .cbd-tabs-nav-container {
         position: relative;
-        transition: color .3s cubic-bezier(.645, .045, .355, 1);
-        cursor: pointer;
-    }
-    .cbd-tabs-ink-bar {
-        left: 0;
-        bottom: 0;
-        border: 1px solid $border-color;
-        position: absolute;
-        transition: transform .3s cubic-bezier(.645, .045, .355, 1);
-        
+        &.scrolling {
+            padding: 0 32px;
+            .cbd-tabs-tab-prev {
+                &:before {
+                    content: '<';
+                    display: block;
+                    line-height: 45px;
+                }
+                position: absolute;
+                left: 0;
+                display: inline-block;
+                height: 100%;
+                cursor: pointer;
+            }
+            .cbd-tabs-tab-next {
+                &:before {
+                    content: '>';
+                    display: block;
+                    line-height: 45px;
+                }
+                position: absolute;
+                right: 0;
+                display: inline-block;
+                height: 100%;
+                cursor: pointer;
+            }
+        }
+        .cbd-tabs-scroll-wrap {
+            overflow: hidden;
+            .cbd-tabs-scroll-nav {
+                .cbd-tabs-nav {
+                    position: relative;
+                    white-space: nowrap;
+                    display: inline-block;
+                    transition: all .3s cubic-bezier(.645, .045, .355, 1);
+                    .cbd-tabs-tab {
+                        display: inline-block;
+                        height: 100%;
+                        margin-right: 32px;
+                        padding: 12px 16px;
+                        box-sizing: border-box;
+                        transition: color .3s cubic-bezier(.645, .045, .355, 1);
+                        cursor: pointer;
+                        &:last-child {
+                            margin-right: 0;
+                        }
+                    }
+                    .cbd-tabs-ink-bar {
+                        left: 0;
+                        bottom: 0;
+                        border: 1px solid $border-color;
+                        position: absolute;
+                        transition: transform .3s cubic-bezier(.645, .045, .355, 1);
+                    }
+                }
+            }
+        }
     }
 }

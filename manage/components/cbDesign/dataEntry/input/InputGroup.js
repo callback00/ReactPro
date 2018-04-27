@@ -42,7 +42,7 @@ class InputGroup extends React.Component {
                 return
             }
             const value = el.outerText
-            const key = el.dataset.key
+            const key = el.dataset ? el.dataset.key : el.getAttribute('data-key')
 
             const parentNode = el.parentNode
 
@@ -88,7 +88,7 @@ class InputGroup extends React.Component {
         const valueArry = this.state.valueArry
         if (el.localName === 'li') {
             const value = el.outerText
-            const key = el.dataset.key
+            const key = el.dataset ? el.dataset.key : el.getAttribute('data-key')
 
             const menuDiv = el.parentNode.parentNode
 
@@ -103,7 +103,7 @@ class InputGroup extends React.Component {
             }
 
 
-            parentUl.childNodes.forEach(element => {
+            lodash.forEach(parentUl.childNodes, (element) => {
                 if (el === element) {
                     // 设置选择效果，else清除原来的选择
                     element.className = element.className + ' select'
@@ -116,17 +116,19 @@ class InputGroup extends React.Component {
                     let valueArry = this.state.valueArry
                     if (valueArry.length > 0) {
 
-                        valueArry.splice(current_UL_Index, valueArry.length - current_UL_Index, { key: el.dataset.key, value: el.outerText })
+                        valueArry.splice(current_UL_Index, valueArry.length - current_UL_Index, { key: el.dataset ? el.dataset.key : el.getAttribute('data-key'), value: el.outerText })
 
                     } else {
                         valueArry.push({
-                            key: el.dataset.key,
+                            key: el.dataset ? el.dataset.key : el.getAttribute('data-key'),
                             value: el.outerText
                         })
                     }
 
                     const childMenu = []
-                    const children = element.dataset.children ? JSON.parse(element.dataset.children) : []
+
+                    const tempChildren = element.dataset ? el.dataset.children : el.getAttribute('data-children')
+                    const children = tempChildren ? JSON.parse(tempChildren) : []
 
                     let menuArry = this.state.menuArry
 
@@ -154,7 +156,8 @@ class InputGroup extends React.Component {
                         })
                     }
                 } else {
-                    element.className = `cascader-menus-item-li${element.dataset.children && JSON.parse(element.dataset.children).length > 0 ? ' expend' : ''}`
+                    const tempChildren = element.dataset ? el.dataset.children : el.getAttribute('data-children')
+                    element.className = `cascader-menus-item-li${tempChildren && JSON.parse(tempChildren).length > 0 ? ' expend' : ''}`
                 }
             });
         } else {

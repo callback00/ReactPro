@@ -28,6 +28,8 @@ const RadioGroup = Radio.RadioGroup
 const RadioButton = Radio.RadioButton
 
 const TabPane = Tabs.TabPane
+const TabBar = Tabs.TabBar
+const TabContent = Tabs.TabContent
 
 import TableReportData from '../../public/data/TableReportData.json'
 import TableReportColumn from '../../public/data/TableReportColumn.json'
@@ -39,7 +41,8 @@ class FormComponents extends React.Component {
         this.state = {
             flag: true,
             currentStep: 1,
-            percent: 0
+            percent: 0,
+            tabActiveKey: '0'
         }
     }
 
@@ -199,8 +202,14 @@ class FormComponents extends React.Component {
                 </div>
 
                 <div className="example">
-                    <Tabs defaultActiveKey=''>
-                        <TabPane>
+                    <Tabs
+                        defaultActiveKey='7'
+                        activeKey={this.state.tabActiveKey}
+                        renderTabBar={() => <TabBar />}
+                        renderTabContent={() => <TabContent />}
+                        className='mytab'
+                    >
+                        <TabPane tab='选项卡一' key='1' >
                             <RadioGroup defaultValue='4' onChange={(value) => { console.log('RadioGroup返回值', value) }} >
                                 <RadioButton value={'1'} >南宁市</RadioButton>
                                 <RadioButton value={'2'} >柳州市</RadioButton>
@@ -208,10 +217,19 @@ class FormComponents extends React.Component {
                                 <RadioButton value={'4'} >防城港</RadioButton>
                             </RadioGroup>
                         </TabPane>
-                        <TabPane>
+
+                        <TabPane tab='选项卡二' key='2' >
                             <TableReport className="tes" data={TableReportData} columns={TableReportColumn} style={{ marginTop: '10px' }} />
                         </TabPane>
-                        <TabPane>content3</TabPane>
+
+                        <TabPane tab='选三' key='3' >content3</TabPane>
+
+                        <TabPane tab='选项卡四' key='4' disabled >content4</TabPane>
+                        <TabPane tab='选项卡五' key='5' disabled >content5</TabPane>
+                        {/* <TabPane tab='选项卡六' key='6' disabled >content6</TabPane>
+                        <TabPane tab='选项卡七' key='7' disabled >content7</TabPane>
+                        <TabPane tab='选项卡八' key='8' disabled >content8</TabPane>
+                        <TabPane tab='选项卡久' key='9' disabled >content9</TabPane> */}
                     </Tabs>
 
 
