@@ -203,11 +203,10 @@ class FormComponents extends React.Component {
 
                 <div className="example">
                     <Tabs
-                        defaultActiveKey='7'
+                        defaultActiveKey='4'
                         activeKey={this.state.tabActiveKey}
                         renderTabBar={() => <TabBar />}
                         renderTabContent={() => <TabContent />}
-                        className='mytab'
                     >
                         <TabPane tab='选项卡一' key='1' >
                             <RadioGroup defaultValue='4' onChange={(value) => { console.log('RadioGroup返回值', value) }} >

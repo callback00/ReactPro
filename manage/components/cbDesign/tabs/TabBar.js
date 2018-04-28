@@ -1,8 +1,9 @@
 // 关于第一个和最后一个tab的偏移量修正问题描述
 // 1、当最后一次偏移时，如果最后一个tab显示不全会自动修正最小偏移量，让最后一个tab显示完整，这样会导致一个bug，有可能修正的偏移量刚好在某个tab的宽度的范围内，这个tab有可能就显示不出来
-// 2、当出现上述问题时，只需点击prep则能显示刚才跳过的tab
+// 2、当出现上述问题时，只需点击prev则能显示刚才跳过的tab
 // 3、所以在修正最小偏移量和最大偏移量时，只能修正一个，修正了最小偏移量能自动补全最后一项，修正最大偏移量能自动补全第一项显示
 // 4、同时修正最小偏移量和最大偏移量很有可能导致其中某个tab一直无法显示，所以本组件只修正最后一项的偏移量，antd也是如此
+// 5、2018-04-28 修正当最后一个tab宽度大于容器宽度时，prep失效。 修正内容rc-tabs setNextprev()
 
 import React from 'react'
 import ClassNames from 'classnames'
@@ -18,7 +19,7 @@ class TabBar extends React.Component {
             inkTranslateX: 0,
             scrollBarEnable: false,
             next: false,
-            prep: false,
+            prev: false,
 
             navStyle: { left: '0%' }
         }
@@ -36,17 +37,27 @@ class TabBar extends React.Component {
     }
 
     componentDidMount() {
-        //判断是否启用滚动条
-        this.judgeEnableScroll()
-        this.setNextPrep()
-
+        //初始化时主动调用componentDidUpdate 并伪造一个prevProps
+        this.componentDidUpdate({ firstInit: true })
         // 监听浏览器大小改变
         this.debouncedResize = debounce(() => {
-            this.judgeEnableScroll()
-            this.setNextPrep()
+            this.setNextprev()
         }, 200);
 
         addEventListener('resize', this.debouncedResize)
+    }
+
+    componentDidUpdate(prevProps) {
+
+        //这个方法里setstate比需要判断，不需要更新时不要调用setstate，否则这里就死循环了
+        this.setNextprev()
+        if (prevProps.firstInit) {
+            this.setState({
+            }, () => {
+                this.moveToActiveTab(false)
+                this.setNextprev()
+            })
+        }
     }
 
     componentWillUnmount() {
@@ -54,17 +65,27 @@ class TabBar extends React.Component {
     }
 
 
+    moveToActiveTab(checkNextPrev = true) {
+        const navEl = this.navEl
+        const navWH = Utils.getClientWH(navEl, this.props.tabBarPosition)
+
+        const navWrapEl = this.navWrapEl;
+        const navWrapWH = Utils.getClientWH(navWrapEl);
+
+        const offset = this.activeTab.offsetLeft - (navWrapWH - this.activeTab.clientWidth)
+        this.setOffset(0 - offset)
+    }
+
     onTabClick(activeKey, e) {
 
         this.activeTab = e.target
-
+        this.moveToActiveTab()
         this.setState({
             activeKey
         })
 
         this.props.onTabClick(activeKey)
     }
-
 
     setOffset(offset, checkNextPrev = true) {
         //offset的最大偏移量为0，最小偏移量为navWrapWH - navWH
@@ -105,23 +126,31 @@ class TabBar extends React.Component {
             let navStyle = {}
             navStyle[navOffsetStyle.name] = navOffsetStyle.value
 
-            this.setState({
-                navStyle
-            })
+            //  防止重复渲染
+            if (navStyle[navOffsetStyle.name] !== this.state.navStyle[navOffsetStyle.name]) {
+                this.setState({
+                    navStyle
+                })
+            }
 
-            // 是否继续设置next和prep的使用状态,该方法有两个作用，该方法作用一是禁用按钮，作用二是重计算偏移量
+            // 是否继续设置next和prev的使用状态,该方法有两个作用，该方法作用一是禁用按钮，作用二是重计算偏移量
             if (checkNextPrev) {
-                this.setNextPrep()
+                this.setNextprev()
             }
         }
     }
 
     prevClick() {
-        if (this.state.prep) {
+        if (this.state.prev) {
             const navWrapEl = this.navWrapEl;
             const navWrapWH = Utils.getClientWH(navWrapEl);
             const { navOffset } = this;
-            this.setOffset(navOffset + navWrapWH);
+
+            if (this.state.next) {
+                this.setOffset(navOffset + navWrapWH);
+            } else {
+                this.setOffset(navOffset + navWrapWH, false);
+            }
         }
     }
 
@@ -134,33 +163,8 @@ class TabBar extends React.Component {
         }
     }
 
-    // 判断是否启用滚动条
-    judgeEnableScroll() {
-
-        const navEl = this.navEl
-        const navWrapEl = this.navWrapEl
-        const navContainerEl = this.navContainerEl
-
-        const navWH = Utils.getClientWH(navEl, this.props.tabBarPosition)
-        const navWrapWH = Utils.getClientWH(navWrapEl, this.props.tabBarPosition)
-        const nanavContainerWH = Utils.getClientWH(navContainerEl, this.props.tabBarPosition)
-
-        const minOffset = nanavContainerWH - navWH
-
-
-        if (navWH > nanavContainerWH) {
-            this.setState({
-                scrollBarEnable: true
-            })
-        } else {
-            this.setState({
-                scrollBarEnable: false
-            })
-        }
-    }
-
-    //设置next和prep是否可用，处理最小偏移量
-    setNextPrep() {
+    //设置next和prev是否可用，处理最小偏移量
+    setNextprev() {
         const navEl = this.navEl
         const navWrapEl = this.navWrapEl
         const navContainerEl = this.navContainerEl
@@ -172,24 +176,35 @@ class TabBar extends React.Component {
         // 判断是否修正最小偏移量的值，如果这个值设为minOffset = navWrapWH - navWH 则表示不修正偏移量，也就不会出现组件最上方描述出现的问题
         const minOffset = nanavContainerWH - navWH
 
-        let { next, prep } = this.state
+        let { next, prev, scrollBarEnable } = this.state
         if (minOffset >= 0) {
-            next = false;
+            next = false
+            prev = false
+            this.setOffset(0, false)
         } else if (minOffset < this.navOffset) {
-            next = true;
+            next = true
+            prev = this.navOffset < 0 ? true : false
         } else {
             // 显示到最后一页时，偏移量用最小值
-            next = false;
-            const realOffset = navWrapWH - navWH;
-            this.setOffset(realOffset, false);
+            // 必须有这个if语句，否则当navWrapWH 小于 最后一个tab的宽度或者高度时，点击上prep就会失效，因为它仍重计算了
+            // 2018-04-28 修正的bug
+            if (this.state.next) {
+                next = false
+                prev = true
+                const realOffset = navWrapWH - navWH;
+                this.setOffset(realOffset, false);
+            }
         }
 
-        prep = this.navOffset < 0 ? true : false
+        scrollBarEnable = minOffset >= 0 ? false : true
 
-        this.setState({
-            prep,
-            next
-        })
+        if (prev !== this.state.prev || next !== this.state.next || scrollBarEnable !== this.state.scrollBarEnable) {
+            this.setState({
+                prev,
+                next,
+                scrollBarEnable
+            })
+        }
     }
 
     // 创建索引标签
@@ -261,7 +276,7 @@ class TabBar extends React.Component {
 
         return (
             <div className={cls} ref={(el) => { this.navContainerEl = el }} >
-                <span className='cbd-tabs-tab-prev' style={{ opacity: this.state.prep ? '1' : '0' }} onClick={this.prevClick.bind(this)} />
+                <span className='cbd-tabs-tab-prev' style={{ opacity: this.state.prev ? '1' : '0' }} onClick={this.prevClick.bind(this)} />
                 <span className='cbd-tabs-tab-next' style={{ opacity: this.state.next ? '1' : '0' }} onClick={this.nextClick.bind(this)} />
                 <div className="cbd-tabs-scroll-wrap" ref={(el) => { this.navWrapEl = el }} >
                     <div className="cbd-tabs-scroll-nav" >
