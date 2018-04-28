@@ -3,7 +3,7 @@
 // 2、当出现上述问题时，只需点击prev则能显示刚才跳过的tab
 // 3、所以在修正最小偏移量和最大偏移量时，只能修正一个，修正了最小偏移量能自动补全最后一项，修正最大偏移量能自动补全第一项显示
 // 4、同时修正最小偏移量和最大偏移量很有可能导致其中某个tab一直无法显示，所以本组件只修正最后一项的偏移量，antd也是如此
-// 5、2018-04-28 修正当最后一个tab宽度大于容器宽度时，prep失效。 修正内容rc-tabs setNextprev()
+// 5、2018-04-28 修正当最后一个tab宽度大于容器宽度时，prep失效。 修正内容rc-tabs setNextprev(), 该bug可在 https://4x4vnvxv87.codesandbox.io/ 重现，将里面的style处理宽度的样式去掉然后调整浏览器宽度即可
 
 import React from 'react'
 import ClassNames from 'classnames'
@@ -12,11 +12,11 @@ import debounce from 'lodash/debounce';
 
 import Utils from './Utils'
 
+// 总结: 1、该组件的关键点在于控制tabBar的创建以及移动，inkBar依赖于tabNode的宽度和offset，需要在tabNoderender后才能获取到tabNode的宽度和offset，所以处理逻辑有些会放在componentDidUpdate内
 class TabBar extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            inkTranslateX: 0,
             scrollBarEnable: false,
             next: false,
             prev: false,
@@ -25,12 +25,10 @@ class TabBar extends React.Component {
         }
 
         this.activeTab = null // 当前tab
-
         // 用于计算tab显示位置
         this.navContainerEl = null
         this.navWrapEl = null
         this.navEl = null
-
         // navEL当前偏移量
         this.navOffset = 0
 
@@ -50,14 +48,19 @@ class TabBar extends React.Component {
     componentDidUpdate(prevProps) {
 
         //这个方法里setstate比需要判断，不需要更新时不要调用setstate，否则这里就死循环了
-        this.setNextprev()
         if (prevProps.firstInit) {
+            this.setNextprev()
             this.setState({
             }, () => {
-                this.moveToActiveTab(false)
-                this.setNextprev()
+                this.moveToActiveTab()
             })
+        } else {
+            // 由调用者改变activeKey时调用
+            if (this.props.activeKey !== prevProps.activeKey) {
+                this.moveToActiveTab()
+            }
         }
+
     }
 
     componentWillUnmount() {
@@ -65,13 +68,14 @@ class TabBar extends React.Component {
     }
 
 
-    moveToActiveTab(checkNextPrev = true) {
+    moveToActiveTab() {
         const navEl = this.navEl
         const navWH = Utils.getClientWH(navEl, this.props.tabBarPosition)
 
         const navWrapEl = this.navWrapEl;
         const navWrapWH = Utils.getClientWH(navWrapEl);
 
+        //tabBarPosition为top、bottom时计算宽度偏移量。这个弄了很久才想到的，计算点在于显示补全的问题 用navWrapWH - this.activeTab.clientWidth来补全即可
         const offset = this.activeTab.offsetLeft - (navWrapWH - this.activeTab.clientWidth)
         this.setOffset(0 - offset)
     }
@@ -146,11 +150,7 @@ class TabBar extends React.Component {
             const navWrapWH = Utils.getClientWH(navWrapEl);
             const { navOffset } = this;
 
-            if (this.state.next) {
-                this.setOffset(navOffset + navWrapWH);
-            } else {
-                this.setOffset(navOffset + navWrapWH, false);
-            }
+            this.setOffset(navOffset + navWrapWH, true);
         }
     }
 
@@ -207,7 +207,7 @@ class TabBar extends React.Component {
         }
     }
 
-    // 创建索引标签
+    // 创建索引标签,this.activeTab依赖于tabNode渲染完成后赋值，
     createInkBar() {
         let style = {}
 
@@ -315,8 +315,8 @@ class TabBar extends React.Component {
     }
 
     render() {
-        const inkBar = this.createInkBar()
         const tempTabs = this.createTabNode()
+        const inkBar = this.createInkBar()
         const scrollBar = this.createScrollBarNode(inkBar, tempTabs)
         const tabs = this.putInTabContainer(scrollBar)
         return (

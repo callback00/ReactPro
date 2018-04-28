@@ -6,5 +6,9 @@
     .cbd-tabs-pane {
         width: 100%;
         flex-shrink: 0;
+        opacity: 0;
+        &.active {
+            opacity: 1;
+        }
     }
 }

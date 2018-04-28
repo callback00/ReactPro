@@ -202,11 +202,13 @@ class FormComponents extends React.Component {
                 </div>
 
                 <div className="example">
+                    <button onClick={() => { this.setState({ tabActiveKey: '9' }) }} style={{ height: '25px', width: 'auto' }}>跳转到最后一个页签</button>
                     <Tabs
-                        defaultActiveKey='4'
+                        defaultActiveKey='6'
                         activeKey={this.state.tabActiveKey}
                         renderTabBar={() => <TabBar />}
                         renderTabContent={() => <TabContent />}
+                        onTabClick={(activeKey) => { this.setState({ tabActiveKey: activeKey }) }}
                     >
                         <TabPane tab='选项卡一' key='1' >
                             <RadioGroup defaultValue='4' onChange={(value) => { console.log('RadioGroup返回值', value) }} >
@@ -225,14 +227,11 @@ class FormComponents extends React.Component {
 
                         <TabPane tab='选项卡四' key='4' disabled >content4</TabPane>
                         <TabPane tab='选项卡五' key='5' disabled >content5</TabPane>
-                        {/* <TabPane tab='选项卡六' key='6' disabled >content6</TabPane>
+                        <TabPane tab='选项卡六' key='6' disabled >content6</TabPane>
                         <TabPane tab='选项卡七' key='7' disabled >content7</TabPane>
                         <TabPane tab='选项卡八' key='8' disabled >content8</TabPane>
-                        <TabPane tab='选项卡久' key='9' disabled >content9</TabPane> */}
+                        <TabPane tab='选项卡久' key='9' disabled >content9</TabPane>
                     </Tabs>
-
-
-
                 </div>
 
                 {/* <Grid className="cbd-grid" style={{ height: '200px', width: '100%' }} >

@@ -27,12 +27,19 @@ class TabContent extends React.Component {
         const left = 0 - activeIndex * 100
         const style = { marginLeft: `${left}%` }
 
+        const panes = React.Children.map(this.props.children, child => {
+            return React.cloneElement(child, {
+                active: activeKey === child.key ? true : false,
+                prefixCls
+            })
+        })
+
         return (
             <div
                 className={cls}
                 style={style}
             >
-                {children}
+                {panes}
             </div>
         )
     }
