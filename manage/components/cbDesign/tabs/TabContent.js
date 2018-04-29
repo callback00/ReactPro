@@ -24,8 +24,12 @@ class TabContent extends React.Component {
 
         const activeIndex = Utils.getTabIndex(activeKey, children)
 
-        const left = 0 - activeIndex * 100
-        const style = { marginLeft: `${left}%` }
+        const offset = 0 - activeIndex * 100
+        let style = { marginLeft: `${offset}%` }
+        if (tabBarPosition === 'left' || tabBarPosition === 'right') {
+            // style = { marginTop: `${offset}%` }
+            style = {}
+        }
 
         const panes = React.Children.map(this.props.children, child => {
             return React.cloneElement(child, {

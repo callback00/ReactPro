@@ -5,7 +5,70 @@
     position: relative;
     overflow: hidden;
     &.cbd-tabs-top {}
-    &.cbd-tabs-left {}
+    &.cbd-tabs-left {
+        .cbd-tabs-bar {
+            height: 100%;
+            display: block;
+            float: left;
+            border-right: 1px solid #e8e8e8;
+            border-bottom: none !important;
+            .cbd-tabs-nav-container {
+                height: 100%;
+                box-sizing: border-box;
+                &.scrolling {
+                    padding: 32px 0 !important;
+                }
+                .cbd-tabs-tab-prev {
+                    height: 32px!important;
+                    width: 100%!important;
+                    top: 0!important;
+                    padding: 0 16px;
+                    box-sizing: border-box;
+                    &:before {
+                        content: '∧';
+                        display: block;
+                        line-height: 32px;
+                        text-align: center;
+                    }
+                }
+                .cbd-tabs-tab-next {
+                    height: 32px!important;
+                    width: 100%!important;
+                    bottom: 0!important;
+                    padding: 0 16px;
+                    box-sizing: border-box;
+                    &:before {
+                        content: '∨';
+                        display: block;
+                        line-height: 32px;
+                        text-align: center;
+                    }
+                }
+                .cbd-tabs-scroll-wrap {
+                    height: 100%;
+                    .cbd-tabs-tab {
+                        display: block !important;
+                        margin-right: 0!important;
+                    }
+                    .cbd-tabs-ink-bar {
+                        top: 0;
+                        right: 0;
+                        left: auto !important;
+                    }
+                }
+            }
+        }
+        .cbd-tabs-content {
+            width: auto !important;
+            padding-left: 20px !important;
+            .cbd-tabs-pane {
+                display: none !important;
+                &.active {
+                    display: block !important;
+                }
+            }
+        }
+    }
     &.cbd-tabs-right {}
     &.cbd-tabs-bottom {}
 }

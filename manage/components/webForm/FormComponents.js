@@ -42,7 +42,8 @@ class FormComponents extends React.Component {
             flag: true,
             currentStep: 1,
             percent: 0,
-            tabActiveKey: '0'
+            tabActiveKey: '3',
+            tabBarPosition: 'top'
         }
     }
 
@@ -202,10 +203,18 @@ class FormComponents extends React.Component {
                 </div>
 
                 <div className="example">
-                    <button onClick={() => { this.setState({ tabActiveKey: '9' }) }} style={{ height: '25px', width: 'auto' }}>跳转到最后一个页签</button>
+                    <div style={{ marginBottom: '20px' }} >
+                        <button onClick={() => { this.setState({ tabActiveKey: '9' }) }} style={{ height: '25px', width: 'auto', verticalAlign: 'middle' }}>跳转到最后一个页签</button>
+
+                        <button onClick={() => { this.setState({ tabBarPosition: 'top' }) }} style={{ height: '25px', width: 'auto', marginLeft: '20px' }}>top</button>
+                        <button onClick={() => { this.setState({ tabBarPosition: 'left' }) }} style={{ height: '25px', width: 'auto', marginLeft: '20px' }}>left</button>
+                    </div>
+
                     <Tabs
-                        defaultActiveKey='6'
+                        defaultActiveKey='3'
                         activeKey={this.state.tabActiveKey}
+                        tabBarPosition={this.state.tabBarPosition}
+                        style={{ height: '224px' }}
                         renderTabBar={() => <TabBar />}
                         renderTabContent={() => <TabContent />}
                         onTabClick={(activeKey) => { this.setState({ tabActiveKey: activeKey }) }}

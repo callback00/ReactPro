@@ -21,7 +21,7 @@ class TabBar extends React.Component {
             next: false,
             prev: false,
 
-            navStyle: { left: '0%' }
+            navStyle: {}
         }
 
         this.activeTab = null // 当前tab
@@ -29,7 +29,8 @@ class TabBar extends React.Component {
         this.navContainerEl = null
         this.navWrapEl = null
         this.navEl = null
-        // navEL当前偏移量
+
+        // navEL当前偏移量(注意不是activeTab的偏移量，代码多容易搞混)
         this.navOffset = 0
 
     }
@@ -57,7 +58,20 @@ class TabBar extends React.Component {
         } else {
             // 由调用者改变activeKey时调用
             if (this.props.activeKey !== prevProps.activeKey) {
-                this.moveToActiveTab()
+                //onTabClick中不需要添加moveToActiveTab的原因在这里,调用setstate是更新inkbar的位置，在scrollBarEnable为false时如果没setstate则inkbar位置不一定改变
+                this.setState({
+                }, () => {
+                    this.moveToActiveTab()
+                })
+            }
+            if (this.props.tabBarPosition !== prevProps.tabBarPosition) {
+                this.setNextprev() //头文件描述的第五点的bug修正又引起了另一个bug, 这个bug是在水平方向与垂直方向来回切换引起的bug。其实可修正也可以不处理(不处理把这句代码去掉即可，影响可读性)，比较真实业务中不太可能切换方向。
+                this.setState({
+                    navStyle: {}
+                }, () => {
+                    this.navOffset = 0
+                    this.moveToActiveTab()
+                })
             }
         }
 
@@ -69,26 +83,30 @@ class TabBar extends React.Component {
 
 
     moveToActiveTab() {
+
         const navEl = this.navEl
         const navWH = Utils.getClientWH(navEl, this.props.tabBarPosition)
 
         const navWrapEl = this.navWrapEl;
-        const navWrapWH = Utils.getClientWH(navWrapEl);
+        const navWrapWH = Utils.getClientWH(navWrapEl, this.props.tabBarPosition);
 
-        //tabBarPosition为top、bottom时计算宽度偏移量。这个弄了很久才想到的，计算点在于显示补全的问题 用navWrapWH - this.activeTab.clientWidth来补全即可
-        const offset = this.activeTab.offsetLeft - (navWrapWH - this.activeTab.clientWidth)
-        this.setOffset(0 - offset)
-    }
+        const activeTabWH = Utils.getClientWH(this.activeTab, this.props.tabBarPosition)
 
-    onTabClick(activeKey, e) {
+        let offset = 0
 
-        this.activeTab = e.target
-        this.moveToActiveTab()
-        this.setState({
-            activeKey
-        })
+        //精髓啊，用距离浏览器的偏移量来判断activeTab是否显示完整,显示不完整补全偏移量
+        const activeWebOffset = Utils.getElOffsetLT(this.activeTab, this.props.tabBarPosition)
+        const navWrapWebOffset = Utils.getElOffsetLT(navWrapEl, this.props.tabBarPosition)
 
-        this.props.onTabClick(activeKey)
+        //这两个判断都是处理非可视区域时偏移量设置，如果tab在可视区域内则不调用setOffset
+        if (navWrapWebOffset > activeWebOffset) {
+            offset = this.navOffset + (navWrapWebOffset - activeWebOffset);
+            this.setOffset(offset);
+        } else if ((navWrapWebOffset + navWrapWH) < (activeWebOffset + activeTabWH)) {
+            //算法关键点
+            offset = this.navOffset - (activeWebOffset + activeTabWH) + (navWrapWebOffset + navWrapWH);
+            this.setOffset(offset);
+        }
     }
 
     setOffset(offset, checkNextPrev = true) {
@@ -98,40 +116,13 @@ class TabBar extends React.Component {
         if (this.navOffset !== targetOffset) {
 
             this.navOffset = targetOffset
-            let navOffsetStyle = {}
-            const transformSupported = Utils.isTransformSupported()
-
-            if (this.props.tabBarPosition === 'left' || this.props.tabBarPosition === 'right') {
-                if (transformSupported) {
-                    navOffsetStyle = {
-                        name: 'transform',
-                        value: `translate3d(0,${targetOffset}px,0)`,
-                    };
-                } else {
-                    navOffsetStyle = {
-                        name: 'top',
-                        value: `${targetOffset}px`,
-                    };
-                }
-            } else {
-                if (transformSupported) {
-                    navOffsetStyle = {
-                        name: 'transform',
-                        value: `translate3d(${targetOffset}px,0,0)`,
-                    };
-                } else {
-                    navOffsetStyle = {
-                        name: 'left',
-                        value: `${targetOffset}px`,
-                    };
-                }
-            }
+            let navOffsetStyle = Utils.getOffsetStyle(targetOffset, this.props.tabBarPosition)
 
             let navStyle = {}
             navStyle[navOffsetStyle.name] = navOffsetStyle.value
 
-            //  防止重复渲染
-            if (navStyle[navOffsetStyle.name] !== this.state.navStyle[navOffsetStyle.name]) {
+            //  防止重复渲染,递归出口判断
+            if (!this.state.navStyle || navStyle[navOffsetStyle.name] !== this.state.navStyle[navOffsetStyle.name]) {
                 this.setState({
                     navStyle
                 })
@@ -141,25 +132,6 @@ class TabBar extends React.Component {
             if (checkNextPrev) {
                 this.setNextprev()
             }
-        }
-    }
-
-    prevClick() {
-        if (this.state.prev) {
-            const navWrapEl = this.navWrapEl;
-            const navWrapWH = Utils.getClientWH(navWrapEl);
-            const { navOffset } = this;
-
-            this.setOffset(navOffset + navWrapWH, true);
-        }
-    }
-
-    nextClick() {
-        if (this.state.next) {
-            const navWrapEl = this.navWrapEl;
-            const navWrapWH = Utils.getClientWH(navWrapEl);
-            const { navOffset } = this;
-            this.setOffset(navOffset - navWrapWH);
         }
     }
 
@@ -198,6 +170,7 @@ class TabBar extends React.Component {
 
         scrollBarEnable = minOffset >= 0 ? false : true
 
+        // componentDidUpdate内调用setstate 相当于递归函数，这里是出口
         if (prev !== this.state.prev || next !== this.state.next || scrollBarEnable !== this.state.scrollBarEnable) {
             this.setState({
                 prev,
@@ -207,6 +180,31 @@ class TabBar extends React.Component {
         }
     }
 
+    prevClick() {
+        if (this.state.prev) {
+            const navWrapEl = this.navWrapEl;
+            const navWrapWH = Utils.getClientWH(navWrapEl, this.props.tabBarPosition);
+            const { navOffset } = this;
+
+            this.setOffset(navOffset + navWrapWH, true);
+        }
+    }
+
+    nextClick() {
+        if (this.state.next) {
+            const navWrapEl = this.navWrapEl;
+            const navWrapWH = Utils.getClientWH(navWrapEl, this.props.tabBarPosition);
+            const { navOffset } = this;
+            this.setOffset(navOffset - navWrapWH);
+        }
+    }
+
+    onTabClick(activeKey, e) {
+
+        this.activeTab = e.target
+        this.props.onTabClick(activeKey)
+    }
+
     // 创建索引标签,this.activeTab依赖于tabNode渲染完成后赋值，
     createInkBar() {
         let style = {}
@@ -214,8 +212,17 @@ class TabBar extends React.Component {
         //第一次进时不显示动画
         if (this.activeTab) {
             style.display = 'block'
-            style.width = `${this.activeTab.clientWidth}px`
-            style.transform = `translate3d(${this.activeTab ? this.activeTab.offsetLeft : 0}px, 0px, 0px)`
+
+            const offset = this.props.tabBarPosition === 'top' || this.props.tabBarPosition === 'bottom' ? this.activeTab.offsetLeft : this.activeTab.offsetTop
+
+            const tempStyle = Utils.getOffsetStyle(offset, this.props.tabBarPosition)
+            style[tempStyle.name] = tempStyle.value
+            if (this.props.tabBarPosition === 'top' || this.props.tabBarPosition === 'bottom') {
+                style.width = `${this.activeTab.clientWidth}px`
+            } else {
+                style.height = `${this.activeTab.clientHeight}px`
+            }
+
         } else {
             style.display = 'none'
         }

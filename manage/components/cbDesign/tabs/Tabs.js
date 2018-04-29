@@ -94,7 +94,7 @@ class Tabs extends React.Component {
         ];
 
         return (
-            <div className={wrapCls} >
+            <div className={wrapCls} style={this.props.style} >
                 {/* <TabBar onTabClick={this.onTabClick} data={this.tabbar} /> */}
                 {/* {renderTabBar}
 

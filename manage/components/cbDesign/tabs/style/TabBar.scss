@@ -48,6 +48,7 @@
                         box-sizing: border-box;
                         transition: color .3s cubic-bezier(.645, .045, .355, 1);
                         cursor: pointer;
+                        position: relative;
                         &:last-child {
                             margin-right: 0;
                         }
