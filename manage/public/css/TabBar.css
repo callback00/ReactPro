@@ -1,12 +1,23 @@
-.cbd-tabs-tab.active:after {
-    content: '';
-    border: 1px solid #1890ff;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+
+.cbd-tabs-pane {
+    display: none
 }
 
-.cbd-tabs-ink-bar {
-    display: none
+.cbd-tabs-pane.active {
+    display: block
+}
+
+.cbd-tabs-content {
+    margin-left: auto !important;
+}
+
+.cbd-tabs.cbd-tabs-left .cbd-tabs-content {
+    width: 80%!important;
+    margin-left: auto !important;
+    float: left;
+    padding-left: 20px !important;
+}
+
+.cbd-tabs.cbd-tabs-left .cbd-tabs-bar {
+    max-width: 20%;
 }

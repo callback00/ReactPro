@@ -232,7 +232,21 @@ class FormComponents extends React.Component {
                             <TableReport className="tes" data={TableReportData} columns={TableReportColumn} style={{ marginTop: '10px' }} />
                         </TabPane>
 
-                        <TabPane tab='选三' key='3' >content3</TabPane>
+                        <TabPane tab='选三' key='3' >
+                            <Steps current={this.state.currentStep} direction="vertical" size="small" style={{ marginBottom: '30px' }} >
+                                <Step title="接单" description="等待商家接单中" />
+                                <Step title="等待发货" description="等待卖家发货" />
+                                <Step title="运输中" description="卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货" />
+                                <Step title="收货" description="等待买家收货" />
+                            </Steps>
+
+                            <Steps current={this.state.currentStep} style={{ marginTop: '30px' }} >
+                                <Step title="接单" description="等待商家接单中" />
+                                <Step title="等待发货" description="等待卖家发货" />
+                                <Step title="运输中" description="卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货卖家已发货，第三方物流已开始发货" />
+                                <Step title="收货" description="等待买家收货" />
+                            </Steps>
+                        </TabPane>
 
                         <TabPane tab='选项卡四' key='4' disabled >content4</TabPane>
                         <TabPane tab='选项卡五' key='5' disabled >content5</TabPane>
