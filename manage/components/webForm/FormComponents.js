@@ -17,6 +17,7 @@ import Switch from '../cbDesign/switch/Switch'
 import Radio from '../cbDesign/radio/Radio'
 import CircleProgress from '../cbDesign/progress/CircleProgress'
 import Tabs from '../cbDesign/tabs/Tabs'
+import FormTest from './FormTest'
 
 // import Calendar from 'rc-calendar';
 // import 'rc-calendar/assets/index.css';
@@ -255,6 +256,10 @@ class FormComponents extends React.Component {
                         <TabPane tab='选项卡八' key='8' disabled >content8</TabPane>
                         <TabPane tab='选项卡久' key='9' disabled >content9</TabPane>
                     </Tabs>
+                </div>
+
+                <div className="example" >
+                    <FormTest />
                 </div>
 
                 {/* <Grid className="cbd-grid" style={{ height: '200px', width: '100%' }} >

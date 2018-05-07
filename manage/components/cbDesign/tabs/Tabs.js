@@ -95,15 +95,6 @@ class Tabs extends React.Component {
 
         return (
             <div className={wrapCls} style={this.props.style} >
-                {/* <TabBar onTabClick={this.onTabClick} data={this.tabbar} /> */}
-                {/* {renderTabBar}
-
-                <div style={{ marginLeft: this.state.marginLeft }} className="cbd-tabs-panes" >
-                    {
-                        this.props.children
-                    }
-                </div> */}
-
                 {contents}
             </div>
         )
@@ -111,7 +102,7 @@ class Tabs extends React.Component {
 }
 
 Tabs.propTypes = {
-    onChange: PropTypes.func,
+    onTabClick: PropTypes.func,
     children: PropTypes.any,
     prefixCls: PropTypes.string,
     className: PropTypes.string,
@@ -124,7 +115,7 @@ Tabs.defaultProps = {
     prefixCls: 'cbd-tabs',
     tabBarPosition: 'top',
     style: {},
-    onChange() { },
+    onTabClick() { },
 };
 
 Tabs.TabPane = TabPane
