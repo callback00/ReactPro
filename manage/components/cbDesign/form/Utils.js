@@ -1,8 +1,13 @@
 import hoistStatics from 'hoist-non-react-statics';
 
 export default {
+
+    // setFieldsValue 调用时的tree才有可能是真正的复杂对象，案例nested-field 中的setFieldsValue方法 
+    // 一个复杂的对象例子： w.x.y.z[0] 或 member[0].name.firstname
+    // 该递归方法就是在对象中寻找是否存在fieldsMeta 的item.name 路径，如果存在则返回该路径字符串
     treeTraverse(path = '', tree, isLeafNode, errorMessage, callback) {
         if (isLeafNode(path, tree)) {
+            // 这个回调函数的两个参数都是必要的， FieldsStore.flattenFields 用到第二个参数
             callback(path, tree)
         } else if (tree === undefined) {
             return
@@ -119,5 +124,54 @@ export default {
 
     flattenArray(arr) {
         return Array.prototype.concat.apply([], arr);
+    },
+
+    getErrorStrs(errors) {
+        if (errors) {
+            return errors.map((e) => {
+                if (e && e.message) {
+                    return e.message;
+                }
+                return e;
+            });
+        }
+        return errors;
+    },
+
+    getParams(ns, opt, cb) {
+        let names = ns
+        let options = opt
+        let callback = cb
+        if (cb === undefined) {
+            if (typeof names === 'function') {
+                callback = names
+                options = {}
+                names = undefined
+            } else if (Array.isArray(names)) {
+                if (typeof options === 'function') {
+                    callback = options
+                    options = {}
+                } else {
+                    options = options || {}
+                }
+            } else {
+                callback = options
+                options = names || {}
+                names = undefined
+            }
+        }
+        return {
+            names,
+            options,
+            callback,
+        };
+    },
+
+    startsWith(str, prefix) {
+        return str.lastIndexOf(prefix, 0) === 0;
+    },
+
+    isEmptyObject(obj) {
+        return Object.keys(obj).length === 0;
     }
 }

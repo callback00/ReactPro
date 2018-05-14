@@ -66,6 +66,14 @@ class FormComponents extends React.Component {
         })
     }
 
+    onFormTestClick() {
+        const { resetFields } = this.formRef.props.form
+
+        console.log(resetFields)
+
+        resetFields()
+    }
+
 
     onClick() {
         let flag = this.state.flag
@@ -196,7 +204,7 @@ class FormComponents extends React.Component {
                 </div>
 
                 <div className="example">
-                    <button onClick={(this.progressAdd.bind(this))} style={{ height: '25px', width: '40px', marginRight: '10px' }} >+</button>
+                    <button onClick={this.progressAdd.bind(this)} style={{ height: '25px', width: '40px', marginRight: '10px' }} >+</button>
                     <button onClick={this.progressSub.bind(this)} style={{ height: '25px', width: '40px' }}>-</button>
                     <CircleProgress percent={this.state.percent} />
 
@@ -259,7 +267,8 @@ class FormComponents extends React.Component {
                 </div>
 
                 <div className="example" >
-                    <FormTest />
+                    <button style={{ marginBottom: '10px' }} onClick={this.onFormTestClick.bind(this)} >父组件重置子组件控件内容</button>
+                    <FormTest name='test' data='111' wrappedComponentRef={(inst) => this.formRef = inst} />
                 </div>
 
                 {/* <Grid className="cbd-grid" style={{ height: '200px', width: '100%' }} >
