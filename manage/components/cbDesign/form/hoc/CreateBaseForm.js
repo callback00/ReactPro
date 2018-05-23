@@ -210,6 +210,7 @@ function CreateBaseForm(options) {
                 if (fieldMeta[action]) {
                     fieldMeta[action](e)
                 } else if (fieldMeta.originalProps && fieldMeta.originalProps[action]) { //getFieldDecorator 会给originalProps赋值
+                    // 在控件监听如onChange事件时，可以回调，不影响下面
                     fieldMeta.originalProps[action](e)
                 }
 

@@ -28,6 +28,8 @@ app.use(webpackDevMiddleware(compiler, {
 
 app.use(webpackHotMiddleware(compiler));
 
+// 以express作为web服务器时，在多级路由的情况下，刷新会无法找到界面而出现404，因为它是真的请求服务器路径或取资源，express有说明，webpack的官网里也有说明
+// 而这一句就是解决刷新404的，将请求都映射到server.html里
 app.use(function (req, res) {
     res.sendFile('Server.html', { root: __dirname })
 })

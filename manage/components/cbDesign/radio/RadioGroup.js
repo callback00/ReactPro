@@ -5,7 +5,7 @@ class RadioGroup extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: props.defaultValue
+            value: props.defaultValue || props.value
         }
 
         this.onChange = this.onChange.bind(this)
@@ -55,8 +55,10 @@ class RadioGroup extends React.Component {
     }
 
     render() {
+
+        const { style } = this.props
         return (
-            <div className="cbd-radio-group" >
+            <div style={style} className="cbd-radio-group" >
                 {
                     this.renderRadio()
                 }

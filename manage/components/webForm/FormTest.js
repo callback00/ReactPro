@@ -5,6 +5,10 @@ import ClassNames from 'classnames';
 
 import createForm from '../cbDesign/form/CreateForm'
 
+import Radio from '../cbDesign/radio/Radio'
+const RadioGroup = Radio.RadioGroup
+const RadioButton = Radio.RadioButton
+
 function noop() {
 }
 
@@ -76,6 +80,10 @@ class FormTest extends React.Component {
 
     }
 
+    onChange(e) {
+        console.log(1)
+    }
+
     render() {
         const { getFieldProps, getFieldError, getFieldDecorator } = this.props.form
 
@@ -142,6 +150,35 @@ class FormTest extends React.Component {
                     <input
                         onChange={this.onChange}
                     />
+                )}
+
+                {getFieldDecorator('memberName', {
+                    initialValue: 'daily',
+                    rules: [{
+                        required: true,
+                        message: 'What\'s the member name?',
+                    }],
+                })(
+                    <input
+                        // onChange={this.onChange}
+                    />
+                )}
+
+                {getFieldDecorator('radio', {
+                    initialValue: '3',
+                    rules: [{
+                        required: true,
+                        message: 'What\'s the member name?',
+                    }],
+                    // trigger: 'onBlur' 因为onBlur再该组件中未定义，所以无法获取到更新的值
+                    trigger: 'onChange'
+                })(
+                    <RadioGroup style={{ marginTop: '10px' }} onChange={(value) => { console.log('RadioGroup返回值', value) }} >
+                        <RadioButton value={'1'} >南宁市</RadioButton>
+                        <RadioButton value={'2'} >柳州市</RadioButton>
+                        <RadioButton value={'3'} >梧州市</RadioButton>
+                        <RadioButton value={'4'} >防城港</RadioButton>
+                    </RadioGroup>
                 )}
 
                 <div style={{ color: 'red' }}>
